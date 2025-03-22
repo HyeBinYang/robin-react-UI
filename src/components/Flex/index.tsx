@@ -38,11 +38,19 @@ type FlexContainerProps = {
 } & HTMLAttributes<HTMLElement>;
 
 const Flex: FC<FlexContainerProps> = ({ children, ...props }) => {
-  const [gap, setGap] = useState(() => (props.gap ? (Array.isArray(props.gap) ? props.gap[0] : props.gap) : 0));
+  const [gap, setGap] = useState(0);
 
   useEffect(() => {
     const updateGap = () => {
-      if (!props.gap || !Array.isArray(props.gap)) return;
+      if (!props.gap) {
+        setGap(0);
+        return;
+      }
+
+      if (!Array.isArray(props.gap)) {
+        setGap(props.gap);
+        return;
+      }
 
       if (window.innerWidth < 480 && !!props.gap[2]) {
         setGap(props.gap[2]);
@@ -53,6 +61,7 @@ const Flex: FC<FlexContainerProps> = ({ children, ...props }) => {
       }
     };
 
+    updateGap();
     window.addEventListener("resize", updateGap);
 
     return () => window.removeEventListener("resize", updateGap);
@@ -95,7 +104,6 @@ const Flex: FC<FlexContainerProps> = ({ children, ...props }) => {
 
   return (
     <div
-      {...props}
       className={flexClass}
       style={{
         gap,
