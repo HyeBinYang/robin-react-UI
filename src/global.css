@@ -290,3 +290,7 @@ button {
   outline: none;
   cursor: pointer;
 }
+
+button:disabled {
+  cursor: not-allowed;
+}

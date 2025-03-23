@@ -4,6 +4,11 @@ button {
   overflow: hidden;
 }
 
+:root {
+  --button-color: var(--color-light-blue-600);
+  --button-disabled-color: var(--color-gray-300);
+}
+
 .button-background {
   position: absolute;
   top: 0;
@@ -17,21 +22,21 @@ button {
   background-color: var(--color-black);
 }
 
-button:hover .button-background {
+button:not(:disabled):hover .button-background {
   opacity: 0.075;
 }
 
-button:active .button-background {
+button:not(:disabled):active .button-background {
   opacity: 0.15;
-}
-
-:root {
-  --button-color: var(--color-light-blue-600);
 }
 
 .primary {
   background-color: var(--button-color);
   color: var(--color-white);
+}
+
+.primary:disabled {
+  background-color: var(--button-disabled-color);
 }
 
 .secondary {
@@ -40,9 +45,18 @@ button:active .button-background {
   border: 1px solid var(--button-color);
 }
 
+.secondary:disabled {
+  color: var(--button-disabled-color);
+  border: 1px solid var(--button-disabled-color);
+}
+
 .tertiary {
   background-color: var(--color-white);
   color: var(--button-color);
+}
+
+.tertiary:disabled {
+  color: var(--button-disabled-color);
 }
 
 .large {
