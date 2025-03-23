@@ -2,9 +2,11 @@ import { ButtonHTMLAttributes, PropsWithChildren } from "react";
 import style from "./Button.module.css";
 import classNames from "classnames";
 
+type ButtonColor = "primary" | "secondary" | "tertiary";
+type ButtonSize = "large" | "medium" | "small";
 type Props = {
-  color: "primary" | "secondary" | "tertiary";
-  size: "large" | "medium" | "small";
+  color: ButtonColor;
+  size: ButtonSize;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 const Button = ({ children, color, size, ...props }: PropsWithChildren<Props>) => {
