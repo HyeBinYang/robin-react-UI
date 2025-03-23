@@ -264,24 +264,24 @@
   --color-white: #ffffff;
 
   /* Typography */
-  --typography-heading1-mobile: "700 32px/1.4 Pretendard";
-  --typography-heading2-pc: "700 40px/1.4 Pretendard";
-  --typography-heading2-mobile: "700 24px/1.4 Pretendard";
-  --typography-heading3-pc: "700 32px/1.4 Pretendard";
-  --typography-heading3-mobile: "700 20px/1.4 Pretendard";
-  --typography-heading4-pc: "700 24px/1.4 Pretendard";
-  --typography-heading4-mobile: "700 18px/1.4 Pretendard";
-  --typography-subtitle1: "700 20px/1.4 Pretendard";
-  --typography-subtitle2: "700 18px/1.4 Pretendard";
-  --typography-subtitle3: "700 16px/1.4 Pretendard";
-  --typography-body1-medium: "500 18px/1.5 Pretendard";
-  --typography-body1-regular: "400 18px/1.5 Pretendard";
-  --typography-body2-medium: "500 16px/1.5 Pretendard";
-  --typography-body2-regular: "400 16px/1.5 Pretendard";
-  --typography-body3-medium: "500 15px/1.5 Pretendard";
-  --typography-body3-regular: "400 15px/1.5 Pretendard";
-  --typography-body4-medium: "500 14px/1.5 Pretendard";
-  --typography-body4-regular: "400 14px/1.5 Pretendard";
-  --typography-detail1: "400 13px/1.5 Pretendard";
-  --typography-detail2: "400 12px/1.5 Pretendard";
+  --typography-heading1-mobile: 700 32px/1.4 Pretendard;
+  --typography-heading2-pc: 700 40px/1.4 Pretendard;
+  --typography-heading2-mobile: 700 24px/1.4 Pretendard;
+  --typography-heading3-pc: 700 32px/1.4 Pretendard;
+  --typography-heading3-mobile: 700 20px/1.4 Pretendard;
+  --typography-heading4-pc: 700 24px/1.4 Pretendard;
+  --typography-heading4-mobile: 700 18px/1.4 Pretendard;
+  --typography-subtitle1: 700 20px/1.4 Pretendard;
+  --typography-subtitle2: 700 18px/1.4 Pretendard;
+  --typography-subtitle3: 700 16px/1.4 Pretendard;
+  --typography-body1-medium: 500 18px/1.5 Pretendard;
+  --typography-body1-regular: 400 18px/1.5 Pretendard;
+  --typography-body2-medium: 500 16px/1.5 Pretendard;
+  --typography-body2-regular: 400 16px/1.5 Pretendard;
+  --typography-body3-medium: 500 15px/1.5 Pretendard;
+  --typography-body3-regular: 400 15px/1.5 Pretendard;
+  --typography-body4-medium: 500 14px/1.5 Pretendard;
+  --typography-body4-regular: 400 14px/1.5 Pretendard;
+  --typography-detail1: 400 13px/1.5 Pretendard;
+  --typography-detail2: 400 12px/1.5 Pretendard;
 }
