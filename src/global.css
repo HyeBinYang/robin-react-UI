@@ -285,3 +285,8 @@
   --typography-detail1: 400 13px/1.5 Pretendard;
   --typography-detail2: 400 12px/1.5 Pretendard;
 }
+
+button {
+  outline: none;
+  cursor: pointer;
+}
