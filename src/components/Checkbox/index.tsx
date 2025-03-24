@@ -1,4 +1,4 @@
-import { InputHTMLAttributes } from "react";
+import React from "react";
 import style from "./Checkbox.module.css";
 
 type Props = {
@@ -6,7 +6,7 @@ type Props = {
   label?: string;
   checked?: boolean;
   onChange?: () => void;
-} & InputHTMLAttributes<HTMLInputElement>;
+} & React.InputHTMLAttributes<HTMLInputElement>;
 
 const Checkbox = ({ htmlFor, label, checked, onChange, ...props }: Props) => {
   return (

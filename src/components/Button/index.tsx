@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, PropsWithChildren } from "react";
+import React from "react";
 import style from "./Button.module.css";
 import classNames from "classnames";
 
@@ -7,9 +7,9 @@ type ButtonSize = "large" | "medium" | "small";
 type Props = {
   color: ButtonColor;
   size: ButtonSize;
-} & ButtonHTMLAttributes<HTMLButtonElement>;
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-const Button = ({ children, color, size, ...props }: PropsWithChildren<Props>) => {
+const Button = ({ children, color, size, ...props }: React.PropsWithChildren<Props>) => {
   const buttonClass = classNames(
     {
       [style.primary]: color === "primary",

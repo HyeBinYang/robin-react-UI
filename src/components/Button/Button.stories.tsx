@@ -1,7 +1,8 @@
+import React from "react";
 import Button from ".";
+import Flex from "../Flex";
 import type { Meta, StoryObj } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
-import { Flex } from "..";
 
 const meta: Meta<typeof Button> = {
   title: "Components/Button",
