@@ -13,6 +13,7 @@ export default {
     preserveModules: true,
     preserveModulesRoot: "src",
   },
+  external: ["classnames"],
   plugins: [
     peerDepsExternal(),
     postcss({
@@ -23,7 +24,6 @@ export default {
     resolve(),
     typescript(),
     babel({
-      babelHelpers: "bundled",
       presets: [["@babel/preset-env"], ["@babel/preset-react", { runtime: "automatic" }]],
       extensions: [".js", ".jsx", ".ts", ".tsx"],
       exclude: "node_modules/**",
