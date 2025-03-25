@@ -1,4 +1,4 @@
-import { FC, HTMLAttributes, ReactNode, useEffect, useState } from "react";
+import React, { HTMLAttributes, ReactNode, useEffect, useState } from "react";
 import classNames from "classnames";
 import style from "./Flex.module.css";
 
@@ -26,7 +26,7 @@ type FlexAlignContent =
   | "space-evenly"
   | "baseline";
 
-type FlexContainerProps = {
+type Props = {
   inline?: boolean;
   flexDirection?: FlexDirection;
   flexWrap?: FlexWrap;
@@ -37,7 +37,7 @@ type FlexContainerProps = {
   children?: ReactNode;
 } & HTMLAttributes<HTMLElement>;
 
-const Flex: FC<FlexContainerProps> = ({ children, ...props }) => {
+const Flex = ({ children, ...props }: Props) => {
   const [gap, setGap] = useState(0);
 
   useEffect(() => {

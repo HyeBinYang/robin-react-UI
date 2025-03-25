@@ -10,16 +10,21 @@ export default {
   output: {
     dir: "dist",
     format: "esm",
+    preserveModules: true,
+    preserveModulesRoot: "src",
   },
   plugins: [
-    postcss(),
+    peerDepsExternal(),
+    postcss({
+      modules: true,
+      minimize: true,
+    }),
     commonjs(),
     resolve(),
-    peerDepsExternal(),
     typescript(),
     babel({
       babelHelpers: "bundled",
-      presets: ["@babel/preset-env", "@babel/preset-react"],
+      presets: [["@babel/preset-env"], ["@babel/preset-react", { runtime: "automatic" }]],
       extensions: [".js", ".jsx", ".ts", ".tsx"],
       exclude: "node_modules/**",
     }),

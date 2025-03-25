@@ -2,12 +2,11 @@
   "name": "robin-react-ui",
   "private": true,
   "version": "1.0.0",
-  "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
-  "types": "./dist/types/index.d.ts",
+  "types": "dist/types/index.d.ts",
   "files": [
-    "/dist"
+    "dist"
   ],
   "scripts": {
     "dev": "vite",
@@ -31,6 +30,7 @@
     "@eslint/js": "^9.21.0",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^28.0.3",
+    "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-typescript": "^12.1.2",
     "@storybook/addon-actions": "^8.6.8",
@@ -58,6 +58,9 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "rollup": "^4.37.0",
+    "rollup-plugin-css-modules": "^0.1.2",
+    "rollup-plugin-dts": "^6.2.1",
+    "rollup-plugin-multi-input": "^1.5.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-typescript2": "^0.36.0",
