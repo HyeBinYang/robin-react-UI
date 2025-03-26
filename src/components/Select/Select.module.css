@@ -1,0 +1,76 @@
+:root {
+  --select-control-border-color: var(--color-gray-400);
+  --select-control-active-border-color: var(--color-light-blue-400);
+  --select-control-border-radius: 4px;
+}
+
+.select-control {
+  position: relative;
+  min-width: 120px;
+}
+
+.select-control-left {
+  width: 12px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border-left: 2px solid var(--select-control-border-color);
+  border-top: 2px solid var(--select-control-border-color);
+  border-bottom: 2px solid var(--select-control-border-color);
+  border-top-left-radius: var(--select-control-border-radius);
+  border-bottom-left-radius: var(--select-control-border-radius);
+}
+
+.select-control.active .select-control-left {
+  border-color: var(--select-control-active-border-color);
+}
+
+.select-label-wrapper {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border-top: 2px solid var(--select-control-border-color);
+  border-bottom: 2px solid var(--select-control-border-color);
+}
+
+.select-control.active .select-label-wrapper {
+  border-top: none;
+  border-bottom-color: var(--select-control-active-border-color);
+}
+
+.select-label {
+  display: block;
+  transition: transform 0.1s linear;
+}
+
+.select-control.active .select-label {
+  transform: translate(0px, -21px) scale(0.7);
+}
+
+.select-control-right {
+  width: 32px;
+  flex: 1;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border-right: 2px solid var(--select-control-border-color);
+  border-top: 2px solid var(--select-control-border-color);
+  border-bottom: 2px solid var(--select-control-border-color);
+  border-top-right-radius: var(--select-control-border-radius);
+  border-bottom-right-radius: var(--select-control-border-radius);
+}
+
+.select-control.active .select-control-right {
+  border-color: var(--select-control-active-border-color);
+}
+
+.select-control-dropdown-indicator {
+  position: absolute;
+  right: 4px;
+  top: 15px;
+  height: 16px;
+  color: var(--color-gray-700);
+}
+
+.select-options {
+  padding: 24px;
+  background-color: var(--color-white);
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
