@@ -4,7 +4,7 @@ import classNames from "classnames";
 import Flex from "../Flex";
 
 type SelectOption = {
-  label?: string;
+  label: string;
   value: string;
 };
 
