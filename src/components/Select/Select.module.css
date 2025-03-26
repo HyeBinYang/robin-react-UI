@@ -6,7 +6,6 @@
 
 .select-control {
   position: relative;
-  min-width: 120px;
 }
 
 .select-control-left {
@@ -29,20 +28,24 @@
   padding-bottom: 12px;
   border-top: 2px solid var(--select-control-border-color);
   border-bottom: 2px solid var(--select-control-border-color);
+  overflow: hidden;
 }
 
 .select-control.active .select-label-wrapper {
   border-top: none;
   border-bottom-color: var(--select-control-active-border-color);
+  overflow: visible;
 }
 
 .select-label {
-  display: block;
+  display: inline-block;
   transition: transform 0.1s linear;
 }
 
 .select-control.active .select-label {
+  padding: 0 4px;
   transform: translate(0px, -21px) scale(0.7);
+  transform-origin: left top;
 }
 
 .select-control-right {

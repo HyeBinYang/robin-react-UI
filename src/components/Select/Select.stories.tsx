@@ -22,6 +22,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Test: Story = {
   args: {
-    label: "Age",
+    label: "qweqweqweqweqweqw",
+    width: 200,
   },
 };
