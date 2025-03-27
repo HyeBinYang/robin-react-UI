@@ -18,6 +18,11 @@ const meta: Meta<typeof Select> = {
       description: "Select에 대한 설명",
       type: "string",
     },
+    size: {
+      control: "select",
+      options: ["large", "medium", "small"],
+      description: "Select 크기",
+    },
     width: {
       description: "Select Control 너비 값",
       type: "number",
@@ -38,6 +43,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Test: Story = {
   args: {
+    size: "large",
     label: "Label",
     options: [
       {

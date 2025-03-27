@@ -11,10 +11,11 @@ type SelectOption = {
 type Props = {
   options: SelectOption[];
   label: string;
+  size?: "large" | "medium" | "small";
   width?: number;
 };
 
-const Select = ({ label, width = 120 }: Props) => {
+const Select = ({ label, size = "large", width = 120 }: Props) => {
   const labelWrapperRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLLabelElement>(null);
   const [open, setOpen] = useState(false);
@@ -22,6 +23,9 @@ const Select = ({ label, width = 120 }: Props) => {
   const controlClass = classNames({
     [style["select-control"]]: true,
     [style["active"]]: open,
+    [style["large"]]: size === "large",
+    [style["medium"]]: size === "medium",
+    [style["small"]]: size === "small",
   });
 
   const controlLeftClass = classNames({
@@ -64,7 +68,7 @@ const Select = ({ label, width = 120 }: Props) => {
       onClick={handleClick}
       onBlur={handleBlur}
     >
-      <Flex>
+      <Flex style={{ height: "100%" }}>
         <div className={controlLeftClass} />
         <div
           className={labelWrapperClass}
@@ -83,11 +87,11 @@ const Select = ({ label, width = 120 }: Props) => {
       </Flex>
       <div className={style["select-control-dropdown-indicator"]}>
         {open ? (
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M6 15l6-6 6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18 15l-6-6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         ) : (
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         )}
