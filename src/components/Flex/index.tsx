@@ -107,6 +107,7 @@ const Flex = ({ children, ...props }: Props) => {
       className={flexClass}
       style={{
         gap,
+        ...props.style,
       }}
     >
       {children}

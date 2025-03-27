@@ -62,8 +62,19 @@
 
 .select-control.active .select-label {
   padding: 0 4px;
-  transform: translate(0px, -21px) scale(0.7);
   transform-origin: left top;
+}
+
+.select-control.large.active .select-label {
+  transform: translate(0px, -24px) scale(0.7);
+}
+
+.select-control.medium.active .select-label {
+  transform: translate(0px, -20px) scale(0.7);
+}
+
+.select-control.small.active .select-label {
+  transform: translate(0px, -16px) scale(0.7);
 }
 
 .select-control-right {
