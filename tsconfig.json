@@ -13,7 +13,12 @@
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "emitDeclarationOnly": true,
-    "allowUmdGlobalAccess": true
+    "allowUmdGlobalAccess": true,
+    "plugins": [
+      {
+        "name": "typescript-plugin-css-modules"
+      }
+    ]
   },
   "include": ["src/**/*"],
   "exclude": ["**/*.stories.tsx"]
