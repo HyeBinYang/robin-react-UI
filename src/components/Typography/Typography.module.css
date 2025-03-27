@@ -1,0 +1,83 @@
+.heading1-pc {
+  font: var(--typography-heading1-pc);
+}
+
+.heading1-mobile {
+  font: var(--typography-heading1-mobile);
+}
+
+.heading2-pc {
+  font: var(--typography-heading2-pc);
+}
+
+.heading2-mobile {
+  font: var(--typography-heading2-mobile);
+}
+
+.heading3-pc {
+  font: var(--typography-heading3-pc);
+}
+
+.heading3-mobile {
+  font: var(--typography-heading3-mobile);
+}
+
+.heading4-pc {
+  font: var(--typography-heading4-pc);
+}
+
+.heading4-mobile {
+  font: var(--typography-heading4-mobile);
+}
+
+.subtitle1 {
+  font: var(--typography-subtitle1);
+}
+
+.subtitle2 {
+  font: var(--typography-subtitle2);
+}
+
+.subtitle3 {
+  font: var(--typography-subtitle3);
+}
+
+.body1-regular {
+  font: var(--typography-body1-regular);
+}
+
+.body1-medium {
+  font: var(--typography-body1-medium);
+}
+
+.body2-regular {
+  font: var(--typography-body2-regular);
+}
+
+.body2-medium {
+  font: var(--typography-body2-medium);
+}
+
+.body3-regular {
+  font: var(--typography-body3-regular);
+}
+
+.body3-medium {
+  font: var(--typography-body3-medium);
+}
+
+.body4-regular {
+  font: var(--typography-body4-regular);
+}
+
+.body4-medium {
+  font: var(--typography-body4-medium);
+}
+
+.detail1 {
+  font: var(--typography-detail1);
+}
+
+.detail2 {
+  font: var(--typography-detail2);
+}

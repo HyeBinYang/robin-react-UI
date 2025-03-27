@@ -264,6 +264,7 @@
   --color-white: #ffffff;
 
   /* Typography */
+  --typography-heading1-pc: 700 48px/1.4 Pretendard;
   --typography-heading1-mobile: 700 32px/1.4 Pretendard;
   --typography-heading2-pc: 700 40px/1.4 Pretendard;
   --typography-heading2-mobile: 700 24px/1.4 Pretendard;
