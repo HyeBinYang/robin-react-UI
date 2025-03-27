@@ -5,7 +5,6 @@ button {
 }
 
 :root {
-  --button-color: var(--color-light-blue-600);
   --button-disabled-color: var(--color-gray-300);
 }
 
@@ -30,33 +29,31 @@ button:not(:disabled):active .button-background {
   opacity: 0.15;
 }
 
-.primary {
-  background-color: var(--button-color);
+.contained {
   color: var(--color-white);
 }
 
-.primary:disabled {
-  background-color: var(--button-disabled-color);
+.contained:disabled {
+  background-color: var(--button-disabled-color) !important;
 }
 
-.secondary {
+.outlined {
   background-color: var(--color-white);
-  color: var(--button-color);
-  border: 1px solid var(--button-color);
+  border-width: 1px;
+  border-style: solid;
 }
 
-.secondary:disabled {
-  color: var(--button-disabled-color);
-  border: 1px solid var(--button-disabled-color);
+.outlined:disabled {
+  color: var(--button-disabled-color) !important;
+  border: 1px solid var(--button-disabled-color) !important;
 }
 
-.tertiary {
+.ghost {
   background-color: var(--color-white);
-  color: var(--button-color);
 }
 
-.tertiary:disabled {
-  color: var(--button-disabled-color);
+.ghost:disabled {
+  color: var(--button-disabled-color) !important;
 }
 
 .large {
