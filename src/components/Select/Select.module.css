@@ -1,6 +1,6 @@
 :root {
   --select-control-border-color: var(--color-gray-400);
-  --select-control-active-border-color: var(--color-light-blue-400);
+  --select-control-active-color: var(--color-light-blue-400);
   --select-control-border-radius: 4px;
 }
 
@@ -36,10 +36,11 @@
 }
 
 .select-control.active .select-control-left {
-  border-color: var(--select-control-active-border-color);
+  border-color: var(--select-control-active-color);
 }
 
 .select-label-wrapper {
+  position: relative;
   display: flex;
   align-items: center;
   padding-top: 12px;
@@ -51,7 +52,7 @@
 
 .select-control.active .select-label-wrapper {
   border-top: none;
-  border-bottom-color: var(--select-control-active-border-color);
+  border-bottom-color: var(--select-control-active-color);
   overflow: visible;
 }
 
@@ -63,6 +64,7 @@
 .select-control.active .select-label {
   padding: 0 4px;
   transform-origin: left top;
+  color: var(--select-control-active-color);
 }
 
 .select-control.large.active .select-label {
@@ -77,8 +79,25 @@
   transform: translate(0px, -16px) scale(0.7);
 }
 
+.selected-value {
+  position: absolute;
+  left: 0;
+  white-space: pre;
+}
+
+.select-control.large .selected-value {
+  top: 14px;
+}
+
+.select-control.medium .selected-value {
+  top: 12px;
+}
+
+.select-control.small .selected-value {
+  top: 10px;
+}
+
 .select-control-right {
-  width: 32px;
   padding-top: 12px;
   padding-bottom: 12px;
   flex: 1;
@@ -90,7 +109,7 @@
 }
 
 .select-control.active .select-control-right {
-  border-color: var(--select-control-active-border-color);
+  border-color: var(--select-control-active-color);
 }
 
 .select-control-dropdown-indicator {
@@ -113,7 +132,33 @@
 }
 
 .select-options {
-  padding: 24px;
+  min-width: 100%;
+  width: fit-content;
+  height: 183px;
+  padding: 4px 0;
   background-color: var(--color-white);
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  list-style-type: none;
+  overflow-y: auto;
+}
+
+.select-options::-webkit-scrollbar {
+  width: 4px;
+}
+
+.select-options::-webkit-scrollbar-thumb {
+  background-color: var(--color-gray-600);
+  border-radius: 6px;
+}
+
+.select-option {
+  padding: 4px 16px;
+  font: var(--typography-body1-regular);
+  color: var(--color-gray-700);
+  cursor: pointer;
+  white-space: pre;
+}
+
+.select-option:hover {
+  background-color: var(--color-gray-100);
 }

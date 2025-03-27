@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { MouseEvent, useEffect, useRef, useState } from "react";
 import style from "./Select.module.css";
 import classNames from "classnames";
 import Flex from "../Flex";
@@ -13,16 +13,18 @@ type Props = {
   label: string;
   size?: "large" | "medium" | "small";
   width?: number;
+  onSelect?: (option: SelectOption) => void;
 };
 
-const Select = ({ label, size = "large", width = 120 }: Props) => {
+const Select = ({ label, size = "large", width = 120, options, onSelect }: Props) => {
   const labelWrapperRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLLabelElement>(null);
   const [open, setOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState<SelectOption>();
 
   const controlClass = classNames({
     [style["select-control"]]: true,
-    [style["active"]]: open,
+    [style["active"]]: open || !!selectedOption,
     [style["large"]]: size === "large",
     [style["medium"]]: size === "medium",
     [style["small"]]: size === "small",
@@ -52,11 +54,20 @@ const Select = ({ label, size = "large", width = 120 }: Props) => {
     setOpen(false);
   };
 
+  const handleSelect = (option: SelectOption) => (event: MouseEvent<HTMLLIElement>) => {
+    event.stopPropagation();
+    setSelectedOption(option);
+    setOpen(false);
+    onSelect?.(option);
+  };
+
   useEffect(() => {
     if (labelWrapperRef.current && labelRef.current) {
-      labelWrapperRef.current.style.width = open ? `${labelRef.current.clientWidth * 0.7}px` : "";
+      if (!selectedOption) {
+        labelWrapperRef.current.style.width = open ? `${labelRef.current.clientWidth * 0.7}px` : "";
+      }
     }
-  }, [open]);
+  }, [open, selectedOption]);
 
   return (
     <div
@@ -82,6 +93,7 @@ const Select = ({ label, size = "large", width = 120 }: Props) => {
               {label}
             </label>
           )}
+          {selectedOption && <span className={style["selected-value"]}>{selectedOption.label}</span>}
         </div>
         <div className={controlRightClass} />
       </Flex>
@@ -96,7 +108,15 @@ const Select = ({ label, size = "large", width = 120 }: Props) => {
           </svg>
         )}
       </div>
-      {open && <div className={style["select-options"]}></div>}
+      {open && (
+        <ul className={style["select-options"]}>
+          {options.map((option) => (
+            <li key={option.label} className={style["select-option"]} onClick={handleSelect(option)}>
+              {option.label}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
