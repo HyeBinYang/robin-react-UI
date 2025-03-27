@@ -13,10 +13,11 @@ type Props = {
   label: string;
   size?: "large" | "medium" | "small";
   width?: number;
+  helperText?: string;
   onSelect?: (option: SelectOption) => void;
 };
 
-const Select = ({ label, size = "large", width = 120, options, onSelect }: Props) => {
+const Select = ({ label, size = "large", width = 120, options, helperText, onSelect }: Props) => {
   const labelWrapperRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLLabelElement>(null);
   const [open, setOpen] = useState(false);
@@ -100,7 +101,13 @@ const Select = ({ label, size = "large", width = 120, options, onSelect }: Props
       <div className={style["select-control-dropdown-indicator"]}>
         {open ? (
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M18 15l-6-6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            <path
+              d="M18 15l-6-6-6 6"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
         ) : (
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -108,6 +115,7 @@ const Select = ({ label, size = "large", width = 120, options, onSelect }: Props
           </svg>
         )}
       </div>
+      {helperText && <p className={style["helper-text"]}>{helperText}</p>}
       {open && (
         <ul className={style["select-options"]}>
           {options.map((option) => (

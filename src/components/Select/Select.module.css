@@ -131,6 +131,22 @@
   top: 8px;
 }
 
+.helper-text {
+  color: var(--color-gray-600);
+}
+
+.select-control.large .helper-text {
+  font: var(--typography-body2-regular);
+}
+
+.select-control.medium .helper-text {
+  font: var(--typography-body3-regular);
+}
+
+.select-control.small .helper-text {
+  font: var(--typography-body4-regular);
+}
+
 .select-options {
   min-width: 100%;
   width: fit-content;
