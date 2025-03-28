@@ -1,5 +1,7 @@
 label {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   cursor: pointer;
 }
 
@@ -8,32 +10,10 @@ label {
 }
 
 .checkbox-label {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font: var(--typography-body4-regular);
-  color: var(--color-gray-700);
+  font: var(--typography-body2-medium);
+  color: var(--color-gray-900);
 }
 
-.checkbox-label::before {
-  content: "";
-  width: 16px;
-  height: 16px;
-  display: inline-block;
-  border: 1px solid var(--color-gray-500);
-  border-radius: 4px;
-}
-
-.checkbox-input:checked + .checkbox-label::after {
-  content: "";
-  position: absolute;
-  left: 4px;
-  bottom: 8px;
-  width: 8px;
-  height: 6px;
-  border-top: 2px solid var(--color-blue-300);
-  border-right: 2px solid var(--color-blue-300);
-  border-radius: 1px;
-  transform: rotate(135deg);
+.checkbox-label.small {
+  font: var(--typography-body3-medium);
 }

@@ -3,6 +3,7 @@ import Flex from "../Flex";
 import type { Meta, StoryObj } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import Checkbox from ".";
+import color from "../../constant/color";
 
 const meta: Meta<typeof Checkbox> = {
   title: "Components/Checkbox",
@@ -15,6 +16,16 @@ const meta: Meta<typeof Checkbox> = {
     ),
   ],
   argTypes: {
+    size: {
+      control: "select",
+      options: ["large", "medium", "small"],
+      description: "Checkbox 크기",
+    },
+    color: {
+      control: "select",
+      options: Object.keys(color),
+      description: "Checkbox 체크시 아이콘 Color",
+    },
     htmlFor: {
       control: "text",
       description: "`input` 태그와 연결하기위한 속성 값",
@@ -36,10 +47,12 @@ const meta: Meta<typeof Checkbox> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Checkbox>;
 
 export const Test: Story = {
   args: {
+    size: "large",
+    color: "Blue400",
     htmlFor: "Test",
     label: "Test Label",
     onChange: action("Trigger onChange"),
