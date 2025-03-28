@@ -15,6 +15,16 @@ const meta: Meta<typeof Select> = {
     ),
   ],
   argTypes: {
+    options: {
+      control: { type: "object" },
+      description: "Select Option 리스트",
+      table: {
+        type: {
+          summary: "{ label: string; value: string }[]",
+          detail: "label: 화면에 보이는 옵션 텍스트 값\nvalue: 옵션의 실질적인 값",
+        },
+      },
+    },
     label: {
       description: "Select에 대한 설명",
       type: "string",
@@ -28,15 +38,11 @@ const meta: Meta<typeof Select> = {
       description: "Select Control 너비 값",
       type: "number",
     },
-    options: {
-      control: { type: "object" },
-      description: "Select Option 리스트",
-      table: {
-        type: {
-          summary: "{ label: string; value: string }[]",
-          detail: "label: 화면에 보이는 옵션 텍스트 값\nvalue: 옵션의 실질적인 값",
-        },
+    isFullWidth: {
+      control: {
+        type: "boolean",
       },
+      description: "container 너비를 꽉 채울지 여부",
     },
     helperText: {
       control: { type: "text" },
@@ -58,17 +64,13 @@ const meta: Meta<typeof Select> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Select>;
 
 export const Test: Story = {
   args: {
-    width: 120,
-    size: "large",
-    label: "Label",
-    helperText: "옵션을 선택해주세요.",
     options: [
       {
-        label: "label 1 ㅂㅈㄷㅂㅈㄷㅈㅂㅈㅂㄷㅈㅂㄷㅂㅈㄷ",
+        label: "label 1",
         value: "value 1",
       },
       {
@@ -92,6 +94,13 @@ export const Test: Story = {
         value: "value 6",
       },
     ],
+    label: "Label",
+    size: "large",
+    width: 120,
+    isFullWidth: false,
+    helperText: "옵션을 선택해주세요.",
+    error: false,
+    disabled: false,
     onSelect: action("선택한 옵션"),
   },
 };
