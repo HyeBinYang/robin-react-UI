@@ -42,12 +42,19 @@ const meta: Meta<typeof Select> = {
       control: { type: "text" },
       description: "Select에 대해 부가설명이 필요할 때 사용하는 텍스트",
     },
+    error: {
+      control: "boolean",
+      description: "에러 발생 여부",
+    },
+    disabled: {
+      control: "boolean",
+      description: "활성 여부",
+    },
     onSelect: {
       description: "옵션 선택시 실행되는 이벤트 헨들러",
       action: "clicked",
     },
   },
-  parameters: {},
 };
 
 export default meta;
@@ -55,13 +62,13 @@ type Story = StoryObj<typeof meta>;
 
 export const Test: Story = {
   args: {
-    width: 200,
+    width: 120,
     size: "large",
     label: "Label",
     helperText: "옵션을 선택해주세요.",
     options: [
       {
-        label: "label 1",
+        label: "label 1 ㅂㅈㄷㅂㅈㄷㅈㅂㅈㅂㄷㅈㅂㄷㅂㅈㄷ",
         value: "value 1",
       },
       {

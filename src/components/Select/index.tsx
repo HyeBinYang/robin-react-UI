@@ -13,11 +13,24 @@ type Props = {
   label: string;
   size?: "large" | "medium" | "small";
   width?: number;
+  isFullWidth?: boolean;
   helperText?: string;
+  error?: boolean;
+  disabled?: boolean;
   onSelect?: (option: SelectOption) => void;
 };
 
-const Select = ({ label, size = "large", width = 120, options, helperText, onSelect }: Props) => {
+const Select = ({
+  options,
+  label,
+  size = "large",
+  width = 120,
+  isFullWidth = false,
+  helperText,
+  error = false,
+  disabled = false,
+  onSelect,
+}: Props) => {
   const labelWrapperRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLLabelElement>(null);
   const [open, setOpen] = useState(false);
@@ -29,6 +42,8 @@ const Select = ({ label, size = "large", width = 120, options, helperText, onSel
     [style["large"]]: size === "large",
     [style["medium"]]: size === "medium",
     [style["small"]]: size === "small",
+    [style.error]: error,
+    [style.disabled]: disabled,
   });
 
   const controlLeftClass = classNames({
@@ -48,6 +63,7 @@ const Select = ({ label, size = "large", width = 120, options, helperText, onSel
   });
 
   const handleClick = () => {
+    if (disabled) return;
     setOpen(true);
   };
 
@@ -71,60 +87,77 @@ const Select = ({ label, size = "large", width = 120, options, helperText, onSel
   }, [open, selectedOption]);
 
   return (
-    <div
-      className={controlClass}
-      tabIndex={0}
-      style={{
-        width,
-      }}
-      onClick={handleClick}
-      onBlur={handleBlur}
-    >
-      <Flex style={{ height: "100%" }}>
-        <div className={controlLeftClass} />
-        <div
-          className={labelWrapperClass}
-          ref={labelWrapperRef}
-          style={{
-            maxWidth: open ? "none" : `${width - 44}px`,
-          }}
-        >
-          {label && (
-            <label className={labelClass} ref={labelRef}>
-              {label}
-            </label>
+    <div>
+      <div
+        className={controlClass}
+        tabIndex={0}
+        style={{
+          width: isFullWidth ? "100%" : width,
+        }}
+        onClick={handleClick}
+        onBlur={handleBlur}
+      >
+        <Flex style={{ height: "100%" }}>
+          <div className={controlLeftClass} />
+          <div
+            className={labelWrapperClass}
+            ref={labelWrapperRef}
+            style={{
+              maxWidth: open ? "none" : `${width - 44}px`,
+            }}
+          >
+            {label && (
+              <label className={labelClass} ref={labelRef}>
+                {label}
+              </label>
+            )}
+            {selectedOption && (
+              <span
+                className={style["selected-value"]}
+                style={{
+                  width: `${width - 44}px`,
+                }}
+              >
+                {selectedOption.label}
+              </span>
+            )}
+          </div>
+          <div className={controlRightClass} />
+        </Flex>
+        <div className={style["select-control-dropdown-indicator"]}>
+          {open ? (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M18 15l-6-6-6 6"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          ) : (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M6 9l6 6 6-6"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
           )}
-          {selectedOption && <span className={style["selected-value"]}>{selectedOption.label}</span>}
         </div>
-        <div className={controlRightClass} />
-      </Flex>
-      <div className={style["select-control-dropdown-indicator"]}>
-        {open ? (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M18 15l-6-6-6 6"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        ) : (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
+        {open && (
+          <ul className={style["select-options"]}>
+            {options.map((option) => (
+              <li key={option.label} className={style["select-option"]} onClick={handleSelect(option)}>
+                {option.label}
+              </li>
+            ))}
+          </ul>
         )}
       </div>
       {helperText && <p className={style["helper-text"]}>{helperText}</p>}
-      {open && (
-        <ul className={style["select-options"]}>
-          {options.map((option) => (
-            <li key={option.label} className={style["select-option"]} onClick={handleSelect(option)}>
-              {option.label}
-            </li>
-          ))}
-        </ul>
-      )}
     </div>
   );
 };

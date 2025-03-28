@@ -1,6 +1,11 @@
 :root {
   --select-control-border-color: var(--color-gray-400);
   --select-control-active-color: var(--color-light-blue-400);
+  --select-error-color: var(--color-red-600);
+  --select-disabled-color: var(--color-gray-400);
+  --select-large-height: 56px;
+  --select-medium-height: 48px;
+  --select--height: 40px;
   --select-control-border-radius: 4px;
 }
 
@@ -10,17 +15,17 @@
 }
 
 .large {
-  height: 56px;
+  height: var(--select-large-height);
   font: var(--typography-body1-regular);
 }
 
 .medium {
-  height: 48px;
+  height: var(--select-medium-height);
   font: var(--typography-body2-regular);
 }
 
 .small {
-  height: 40px;
+  height: var(--select-small-height);
   font: var(--typography-body3-regular);
 }
 
@@ -57,6 +62,7 @@
 }
 
 .select-label {
+  position: absolute;
   display: inline-block;
   transition: transform 0.1s linear;
 }
@@ -82,7 +88,12 @@
 .selected-value {
   position: absolute;
   left: 0;
-  white-space: pre;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-break: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }
 
 .select-control.large .selected-value {
@@ -98,6 +109,7 @@
 }
 
 .select-control-right {
+  width: 32px;
   padding-top: 12px;
   padding-bottom: 12px;
   flex: 1;
@@ -148,6 +160,7 @@
 }
 
 .select-options {
+  position: absolute;
   min-width: 100%;
   width: fit-content;
   height: 183px;
@@ -156,6 +169,18 @@
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
   list-style-type: none;
   overflow-y: auto;
+}
+
+.large .select-options {
+  top: var(--select-large-height);
+}
+
+.medium .select-options {
+  top: var(--select-medium-height);
+}
+
+.small .select-options {
+  top: var(--select-small-height);
 }
 
 .select-options::-webkit-scrollbar {
@@ -177,4 +202,24 @@
 
 .select-option:hover {
   background-color: var(--color-gray-100);
+}
+
+.error,
+.error .select-control-left,
+.error .select-label-wrapper,
+.error .select-label,
+.error .select-control-right,
+.error .helper-text {
+  color: var(--select-error-color) !important;
+  border-color: var(--select-error-color) !important;
+}
+
+.disabled,
+.disabled .select-control-left,
+.disabled .select-label-wrapper,
+.disabled .select-label,
+.disabled .select-control-right,
+.disabled .helper-text {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
