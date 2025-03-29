@@ -1,0 +1,74 @@
+.container {
+  position: relative;
+  display: inline-flex;
+}
+
+.label {
+  position: absolute;
+  top: 16px;
+  left: 14px;
+  font-size: 1rem;
+  color: var(--color-gray-500);
+  will-change: transform;
+  transition: transform 0.1s linear;
+}
+
+.container > input::placeholder {
+  opacity: 0;
+}
+
+.outlined {
+  height: 56px;
+  padding: 16px 14px;
+}
+
+.outlined fieldset {
+  position: absolute;
+  top: -5px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0 8px;
+  border: 1px solid var(--color-gray-600);
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+.outlined fieldset > legend {
+  width: auto;
+  max-width: 0px;
+  font-size: 0.75em;
+  transition: max-width 0.05s linear;
+}
+
+.outlined fieldset > legend > span {
+  opacity: 0;
+  padding: 0 6px;
+}
+
+.outlined.active .label {
+  transform: translate(0px, -22px) scale(0.75);
+  transform-origin: top left;
+}
+
+.outlined.active fieldset > legend {
+  max-width: 100%;
+}
+
+.container.outlined:focus-within .label {
+  color: var(--color-blue-400);
+}
+
+.container.outlined:focus-within fieldset {
+  border-color: var(--color-blue-400);
+}
+
+.container:focus-within > input::placeholder {
+  opacity: 1;
+}
+
+.filled {
+}
+
+.standard {
+}
