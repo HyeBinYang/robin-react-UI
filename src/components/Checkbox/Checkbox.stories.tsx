@@ -1,5 +1,4 @@
 import React from "react";
-import Flex from "../Flex";
 import type { Meta, StoryObj } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import Checkbox from ".";
@@ -8,13 +7,6 @@ import color from "../../constant/color";
 const meta: Meta<typeof Checkbox> = {
   title: "Components/Checkbox",
   component: Checkbox,
-  decorators: [
-    (Story) => (
-      <Flex gap={8}>
-        <Story />
-      </Flex>
-    ),
-  ],
   argTypes: {
     size: {
       control: "select",

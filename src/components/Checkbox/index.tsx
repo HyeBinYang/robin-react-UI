@@ -81,7 +81,7 @@ const Checkbox = ({ size, color = "Blue400", htmlFor, label, onChange, ...props 
   };
 
   return (
-    <label htmlFor={htmlFor}>
+    <label className={style.label} htmlFor={htmlFor}>
       <input
         className={style["checkbox-input"]}
         {...props}
