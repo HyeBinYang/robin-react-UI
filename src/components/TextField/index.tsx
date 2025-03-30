@@ -80,7 +80,7 @@ const TextField = ({
             <legend>
               <span>
                 {label}
-                {required && "*"}
+                {label && required && "*"}
               </span>
             </legend>
           </fieldset>
