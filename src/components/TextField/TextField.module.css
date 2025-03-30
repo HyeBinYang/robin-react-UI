@@ -1,5 +1,5 @@
 :root {
-  --text-field-active-color: var(--text-field-active-color);
+  --text-field-active-color: var(--color-blue-400);
 }
 
 .container {
@@ -7,23 +7,29 @@
   display: inline-flex;
 }
 
+.container > input {
+  height: 1.5em;
+}
+
 .container > input::placeholder {
   opacity: 0;
 }
 
-.outlined {
-  height: 56px;
-  padding: 16px 12px;
-}
-
-.outlined .label {
+.label {
   position: absolute;
-  top: 16px;
-  left: 12px;
   font-size: 1rem;
   color: var(--color-gray-500);
   will-change: transform;
   transition: transform 0.1s linear;
+}
+
+.outlined {
+  padding: 16px 12px;
+}
+
+.outlined .label {
+  top: 16px;
+  left: 12px;
 }
 
 .outlined fieldset {
@@ -32,7 +38,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  padding: 0 8px;
+  padding: 0 12px;
   border: 1px solid var(--color-gray-600);
   border-radius: 4px;
   pointer-events: none;
@@ -47,11 +53,11 @@
 
 .outlined fieldset > legend > span {
   opacity: 0;
-  padding: 0 6px;
+  padding: 0 4px;
 }
 
 .outlined.active .label {
-  transform: translate(0px, -22px) scale(0.75);
+  transform: translate(4px, -22px) scale(0.75);
   transform-origin: top left;
 }
 
@@ -84,13 +90,8 @@
 }
 
 .filled .label {
-  position: absolute;
   top: 16px;
   left: 12px;
-  font-size: 1rem;
-  color: var(--color-gray-500);
-  will-change: transform;
-  transition: transform 0.1s linear;
 }
 
 .filled.active .label {
@@ -100,4 +101,22 @@
 }
 
 .standard {
+  padding-top: 24px;
+  padding-bottom: 4px;
+  border-bottom: 2px solid var(--color-gray-500);
+}
+
+.standard.active {
+  border-bottom-color: var(--text-field-active-color);
+}
+
+.standard .label {
+  top: 24px;
+  left: 0;
+}
+
+.standard.active .label {
+  color: var(--text-field-active-color);
+  transform: translate(0px, -20px) scale(0.75);
+  transform-origin: top left;
 }

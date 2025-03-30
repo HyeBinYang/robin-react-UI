@@ -41,7 +41,7 @@ const TextField = ({ id, variant = "outlined", label, ...inputProps }: Props) =>
       {variant === "outlined" && (
         <fieldset>
           <legend>
-            <span>Outlined</span>
+            <span>{label}</span>
           </legend>
         </fieldset>
       )}
