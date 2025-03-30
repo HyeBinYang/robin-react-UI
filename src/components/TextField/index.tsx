@@ -6,9 +6,20 @@ type Props = {
   id?: string;
   variant?: "outlined" | "filled" | "standard";
   label?: string;
+  helperText?: string;
+  required?: boolean;
+  error?: boolean;
 } & InputHTMLAttributes<HTMLInputElement>;
 
-const TextField = ({ id, variant = "outlined", label, ...inputProps }: Props) => {
+const TextField = ({
+  id,
+  variant = "outlined",
+  label,
+  helperText,
+  required = false,
+  error = false,
+  ...inputProps
+}: Props) => {
   const inputId = useId();
   const inputRef = useRef<HTMLInputElement>(null);
   const [containerClass, setContainerClass] = useState({});
@@ -29,22 +40,37 @@ const TextField = ({ id, variant = "outlined", label, ...inputProps }: Props) =>
       [styles.outlined]: variant === "outlined",
       [styles.filled]: variant === "filled",
       [styles.standard]: variant === "standard",
+      [styles.error]: error,
     });
-  }, [variant]);
+  }, [variant, error]);
 
   return (
-    <div className={classNames(containerClass)}>
-      <label className={styles.label} htmlFor={id || inputId}>
-        {label}
-      </label>
-      <input {...inputProps} ref={inputRef} id={id || inputId} type="text" onFocus={handleFocus} onBlur={handleBlur} />
-      {variant === "outlined" && (
-        <fieldset>
-          <legend>
-            <span>{label}</span>
-          </legend>
-        </fieldset>
-      )}
+    <div>
+      <div className={classNames(containerClass)}>
+        <label className={styles.label} htmlFor={id || inputId}>
+          {label}
+          {required && "*"}
+        </label>
+        <input
+          type="text"
+          {...inputProps}
+          ref={inputRef}
+          id={id || inputId}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+        />
+        {variant === "outlined" && (
+          <fieldset>
+            <legend>
+              <span>
+                {label}
+                {required && "*"}
+              </span>
+            </legend>
+          </fieldset>
+        )}
+      </div>
+      {helperText && <p className={styles["helper-text"]}>{helperText}</p>}
     </div>
   );
 };

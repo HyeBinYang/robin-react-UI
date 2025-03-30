@@ -38,7 +38,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  padding: 0 12px;
+  padding: 0 8px;
   border: 1px solid var(--color-gray-600);
   border-radius: 4px;
   pointer-events: none;
@@ -53,11 +53,12 @@
 
 .outlined fieldset > legend > span {
   opacity: 0;
-  padding: 0 4px;
+  padding-left: 2px;
+  padding-right: 2px;
 }
 
 .outlined.active .label {
-  transform: translate(4px, -22px) scale(0.75);
+  transform: translate(0px, -22px) scale(0.75);
   transform-origin: top left;
 }
 
@@ -119,4 +120,22 @@
   color: var(--text-field-active-color);
   transform: translate(0px, -20px) scale(0.75);
   transform-origin: top left;
+}
+
+.helper-text {
+  margin-top: 4px;
+  font: var(--typography-body4-regular);
+  color: var(--color-gray-600);
+}
+
+.asterisk {
+  margin-left: 2px;
+}
+
+.error,
+.error .label,
+.error fieldset,
+.error .helper-text {
+  color: var(--color-red-600) !important;
+  border-color: var(--color-red-600) !important;
 }
