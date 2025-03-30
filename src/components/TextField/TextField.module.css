@@ -7,11 +7,11 @@
   display: inline-flex;
 }
 
-.container > input {
+input {
   height: 1.5em;
 }
 
-.container > input::placeholder {
+.with-label input::placeholder {
   opacity: 0;
 }
 
@@ -23,12 +23,21 @@
   transition: transform 0.1s linear;
 }
 
-.outlined {
+.outlined.normal {
   padding: 16px 12px;
 }
 
-.outlined .label {
+.outlined.small {
+  padding: 8px 12px;
+}
+
+.outlined.normal .label {
   top: 16px;
+  left: 12px;
+}
+
+.outlined.small .label {
+  top: 8px;
   left: 12px;
 }
 
@@ -57,8 +66,13 @@
   padding-right: 2px;
 }
 
-.outlined.active .label {
+.outlined.normal.active .label {
   transform: translate(0px, -22px) scale(0.75);
+  transform-origin: top left;
+}
+
+.outlined.small.active .label {
+  transform: translate(0px, -14px) scale(0.75);
   transform-origin: top left;
 }
 
@@ -78,9 +92,15 @@
   opacity: 1;
 }
 
-.filled {
-  height: 56px;
+.filled.normal {
   padding: 24px 12px 8px;
+  background-color: rgba(0, 0, 0, 0.06);
+  border-radius: 4px 4px 0 0;
+  border-bottom: 2px solid var(--color-gray-500);
+}
+
+.filled.small {
+  padding: 20px 12px 4px;
   background-color: rgba(0, 0, 0, 0.06);
   border-radius: 4px 4px 0 0;
   border-bottom: 2px solid var(--color-gray-500);
@@ -90,7 +110,12 @@
   border-bottom-color: var(--text-field-active-color);
 }
 
-.filled .label {
+.filled.normal .label {
+  top: 20px;
+  left: 12px;
+}
+
+.filled.small .label {
   top: 16px;
   left: 12px;
 }
@@ -101,8 +126,14 @@
   transform-origin: top left;
 }
 
-.standard {
+.standard.normal {
   padding-top: 24px;
+  padding-bottom: 4px;
+  border-bottom: 2px solid var(--color-gray-500);
+}
+
+.standard.small {
+  padding-top: 20px;
   padding-bottom: 4px;
   border-bottom: 2px solid var(--color-gray-500);
 }
@@ -111,8 +142,13 @@
   border-bottom-color: var(--text-field-active-color);
 }
 
-.standard .label {
+.standard.normal .label {
   top: 24px;
+  left: 0;
+}
+
+.standard.small .label {
+  top: 20px;
   left: 0;
 }
 
@@ -126,10 +162,6 @@
   margin-top: 4px;
   font: var(--typography-body4-regular);
   color: var(--color-gray-600);
-}
-
-.asterisk {
-  margin-left: 2px;
 }
 
 .error,

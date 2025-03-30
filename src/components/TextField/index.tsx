@@ -5,15 +5,17 @@ import classNames from "classnames";
 type Props = {
   id?: string;
   variant?: "outlined" | "filled" | "standard";
+  size?: "normal" | "small";
   label?: string;
   helperText?: string;
   required?: boolean;
   error?: boolean;
-} & InputHTMLAttributes<HTMLInputElement>;
+} & Omit<InputHTMLAttributes<HTMLInputElement>, "size">;
 
 const TextField = ({
   id,
   variant = "outlined",
+  size = "normal",
   label,
   helperText,
   required = false,
@@ -25,7 +27,9 @@ const TextField = ({
   const [containerClass, setContainerClass] = useState({});
 
   const handleFocus = () => {
-    setContainerClass({ ...containerClass, [styles.active]: true });
+    if (label) {
+      setContainerClass({ ...containerClass, [styles.active]: true });
+    }
   };
 
   const handleBlur = () => {
@@ -37,20 +41,25 @@ const TextField = ({
   useEffect(() => {
     setContainerClass({
       [styles.container]: true,
+      [styles["with-label"]]: !!label,
       [styles.outlined]: variant === "outlined",
       [styles.filled]: variant === "filled",
       [styles.standard]: variant === "standard",
+      [styles.normal]: size === "normal",
+      [styles.small]: size === "small",
       [styles.error]: error,
     });
-  }, [variant, error]);
+  }, [label, variant, size, error]);
 
   return (
     <div>
       <div className={classNames(containerClass)}>
-        <label className={styles.label} htmlFor={id || inputId}>
-          {label}
-          {required && "*"}
-        </label>
+        {label && (
+          <label className={styles.label} htmlFor={id || inputId}>
+            {label}
+            {required && "*"}
+          </label>
+        )}
         <input
           type="text"
           {...inputProps}
