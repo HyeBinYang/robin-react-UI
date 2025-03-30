@@ -64,7 +64,7 @@ const TextField = ({
           </label>
         )}
         <div className={styles["input-wrapper"]}>
-          <div className={styles.left}>{left}</div>
+          {left && <div className={styles.left}>{left}</div>}
           <input
             type="text"
             {...inputProps}
