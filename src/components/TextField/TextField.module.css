@@ -175,3 +175,13 @@ input {
   color: var(--color-red-600) !important;
   border-color: var(--color-red-600) !important;
 }
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.left {
+  display: flex;
+  margin-right: 8px;
+}

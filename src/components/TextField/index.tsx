@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes, useEffect, useId, useRef, useState } from "react";
+import React, { InputHTMLAttributes, ReactNode, useEffect, useId, useRef, useState } from "react";
 import styles from "./TextField.module.css";
 import classNames from "classnames";
 
@@ -10,6 +10,8 @@ type Props = {
   helperText?: string;
   required?: boolean;
   error?: boolean;
+  left?: ReactNode;
+  right?: ReactNode;
 } & Omit<InputHTMLAttributes<HTMLInputElement>, "size">;
 
 const TextField = ({
@@ -20,6 +22,8 @@ const TextField = ({
   helperText,
   required = false,
   error = false,
+  left,
+  right,
   ...inputProps
 }: Props) => {
   const inputId = useId();
@@ -31,7 +35,7 @@ const TextField = ({
   };
 
   const handleBlur = () => {
-    if (inputRef.current && !inputRef.current.value) {
+    if (!inputRef.current?.value && !left) {
       setContainerClass({ ...containerClass, [styles.active]: false });
     }
   };
@@ -46,8 +50,9 @@ const TextField = ({
       [styles.normal]: size === "normal",
       [styles.small]: size === "small",
       [styles.error]: error,
+      [styles.active]: !!left,
     });
-  }, [label, variant, size, error]);
+  }, [label, variant, size, error, left]);
 
   return (
     <div>
@@ -58,14 +63,18 @@ const TextField = ({
             {required && "*"}
           </label>
         )}
-        <input
-          type="text"
-          {...inputProps}
-          ref={inputRef}
-          id={id || inputId}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-        />
+        <div className={styles["input-wrapper"]}>
+          <div className={styles.left}>{left}</div>
+          <input
+            type="text"
+            {...inputProps}
+            ref={inputRef}
+            id={id || inputId}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+          />
+          {right}
+        </div>
         {variant === "outlined" && (
           <fieldset>
             <legend>
