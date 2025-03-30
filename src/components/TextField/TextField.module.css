@@ -1,16 +1,10 @@
+:root {
+  --text-field-active-color: var(--text-field-active-color);
+}
+
 .container {
   position: relative;
   display: inline-flex;
-}
-
-.label {
-  position: absolute;
-  top: 16px;
-  left: 14px;
-  font-size: 1rem;
-  color: var(--color-gray-500);
-  will-change: transform;
-  transition: transform 0.1s linear;
 }
 
 .container > input::placeholder {
@@ -19,7 +13,17 @@
 
 .outlined {
   height: 56px;
-  padding: 16px 14px;
+  padding: 16px 12px;
+}
+
+.outlined .label {
+  position: absolute;
+  top: 16px;
+  left: 12px;
+  font-size: 1rem;
+  color: var(--color-gray-500);
+  will-change: transform;
+  transition: transform 0.1s linear;
 }
 
 .outlined fieldset {
@@ -56,11 +60,11 @@
 }
 
 .container.outlined:focus-within .label {
-  color: var(--color-blue-400);
+  color: var(--text-field-active-color);
 }
 
 .container.outlined:focus-within fieldset {
-  border-color: var(--color-blue-400);
+  border-color: var(--text-field-active-color);
 }
 
 .container:focus-within > input::placeholder {
@@ -68,6 +72,31 @@
 }
 
 .filled {
+  height: 56px;
+  padding: 24px 12px 8px;
+  background-color: rgba(0, 0, 0, 0.06);
+  border-radius: 4px 4px 0 0;
+  border-bottom: 2px solid var(--color-gray-500);
+}
+
+.filled.active {
+  border-bottom-color: var(--text-field-active-color);
+}
+
+.filled .label {
+  position: absolute;
+  top: 16px;
+  left: 12px;
+  font-size: 1rem;
+  color: var(--color-gray-500);
+  will-change: transform;
+  transition: transform 0.1s linear;
+}
+
+.filled.active .label {
+  color: var(--text-field-active-color);
+  transform: translate(0px, -12px) scale(0.75);
+  transform-origin: top left;
 }
 
 .standard {

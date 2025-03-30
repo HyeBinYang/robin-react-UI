@@ -20,8 +20,8 @@ type Story = StoryObj<typeof TextField>;
 
 export const Example: Story = {
   args: {
-    variant: "outlined",
-    label: "Outlined",
+    variant: "filled",
+    label: "Filled",
     placeholder: "Placeholder",
   },
 };
