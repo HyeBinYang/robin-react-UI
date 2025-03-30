@@ -53,6 +53,10 @@ input {
   pointer-events: none;
 }
 
+.outlined:not(.with-label) fieldset {
+  top: 0;
+}
+
 .outlined fieldset > legend {
   width: auto;
   max-width: 0px;
@@ -60,7 +64,7 @@ input {
   transition: max-width 0.05s linear;
 }
 
-.outlined fieldset > legend > span {
+.outlined.with-label fieldset > legend > span {
   opacity: 0;
   padding-left: 2px;
   padding-right: 2px;

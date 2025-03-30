@@ -27,9 +27,7 @@ const TextField = ({
   const [containerClass, setContainerClass] = useState({});
 
   const handleFocus = () => {
-    if (label) {
-      setContainerClass({ ...containerClass, [styles.active]: true });
-    }
+    setContainerClass({ ...containerClass, [styles.active]: true });
   };
 
   const handleBlur = () => {
