@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import React, { useId, useState } from "react";
 import style from "./Checkbox.module.css";
 import colors from "../../constant/color";
 import classNames from "classnames";
+import { DEFAULT_COLOR } from "../../constant/common";
 
 type CheckboxSize = "large" | "medium" | "small";
 type CheckboxColor = keyof typeof colors;
 type Props = {
-  size: CheckboxSize;
+  id?: string;
+  size?: CheckboxSize;
   color?: CheckboxColor;
-  htmlFor: string;
   label?: string;
   checked?: boolean;
   onChange?: (checked: boolean) => void;
@@ -72,7 +73,8 @@ const UncheckedIcon = ({ size }: Pick<IconProps, "size">) => {
   }
 };
 
-const Checkbox = ({ size, color = "Blue400", htmlFor, label, onChange, ...props }: Props) => {
+const Checkbox = ({ id, size = "medium", color = DEFAULT_COLOR, label, onChange, ...props }: Props) => {
+  const defaultId = useId();
   const [checked, setChecked] = useState(props.checked);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -81,11 +83,11 @@ const Checkbox = ({ size, color = "Blue400", htmlFor, label, onChange, ...props 
   };
 
   return (
-    <label className={style.label} htmlFor={htmlFor}>
+    <label className={style.label} htmlFor={id || defaultId}>
       <input
         className={style["checkbox-input"]}
         {...props}
-        id={htmlFor}
+        id={id || defaultId}
         type="checkbox"
         checked={checked}
         onChange={handleChange}

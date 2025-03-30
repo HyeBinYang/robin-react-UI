@@ -66,7 +66,7 @@ const meta: Meta<typeof Select> = {
 export default meta;
 type Story = StoryObj<typeof Select>;
 
-export const Test: Story = {
+export const Example: Story = {
   args: {
     options: [
       {

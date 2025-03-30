@@ -25,7 +25,8 @@ const meta: Meta<typeof Select> = {
       description: "텍스트",
     },
     as: {
-      control: "text",
+      control: "select",
+      options: ["h1", "h2", "h3", "h4", "h5", "h6", "p", "b", "strong", "i", "em", "small", "span"],
       description: "태그 (HTML Element)",
     },
   },
@@ -34,7 +35,7 @@ const meta: Meta<typeof Select> = {
 export default meta;
 type Story = StoryObj<typeof Typography>;
 
-export const Test: Story = {
+export const Example: Story = {
   args: {
     as: "h1",
     children: "Typography",

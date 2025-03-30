@@ -2,17 +2,24 @@ import React from "react";
 import style from "./Button.module.css";
 import classNames from "classnames";
 import colors from "../../constant/color";
+import { DEFAULT_COLOR } from "../../constant/common";
 
 type ButtonVariant = "contained" | "outlined" | "ghost";
 type ButtonColor = keyof typeof colors;
 type ButtonSize = "large" | "medium" | "small";
 type Props = {
-  variant: ButtonVariant;
-  color: ButtonColor;
-  size: ButtonSize;
+  variant?: ButtonVariant;
+  color?: ButtonColor;
+  size?: ButtonSize;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-const Button = ({ children, variant, color, size, ...props }: React.PropsWithChildren<Props>) => {
+const Button = ({
+  children,
+  variant = "contained",
+  color = DEFAULT_COLOR,
+  size = "medium",
+  ...props
+}: React.PropsWithChildren<Props>) => {
   const buttonClass = classNames(
     {
       [style.contained]: variant === "contained",

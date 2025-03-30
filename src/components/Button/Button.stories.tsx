@@ -39,19 +39,12 @@ const meta: Meta<typeof Button> = {
       description: "Click시 트리거되는 이벤트 헨들러",
     },
   },
-  parameters: {
-    docs: {
-      description: {
-        component: "버튼 컴포넌트",
-      },
-    },
-  },
 };
 
 export default meta;
 type Story = StoryObj<typeof Button>;
 
-export const Test: Story = {
+export const Example: Story = {
   args: {
     variant: "contained",
     color: "Blue400",
