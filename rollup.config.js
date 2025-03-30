@@ -4,6 +4,7 @@ import commonjs from "@rollup/plugin-commonjs";
 import typescript from "@rollup/plugin-typescript";
 import postcss from "rollup-plugin-postcss";
 import peerDepsExternal from "rollup-plugin-peer-deps-external";
+import analyze from "rollup-plugin-analyzer";
 
 export default {
   input: "src/index.ts",
@@ -28,5 +29,6 @@ export default {
       extensions: [".js", ".jsx", ".ts", ".tsx"],
       exclude: "node_modules/**",
     }),
+    analyze(),
   ],
 };
