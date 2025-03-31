@@ -7,11 +7,13 @@
   display: inline-flex;
 }
 
-input {
+input,
+textarea {
+  min-height: 1.5em;
   height: 1.5em;
 }
 
-.with-label input::placeholder {
+.with-label *::placeholder {
   opacity: 0;
 }
 
@@ -92,7 +94,7 @@ input {
   border-color: var(--text-field-active-color);
 }
 
-.container:focus-within > input::placeholder {
+.container:focus-within > *::placeholder {
   opacity: 1;
 }
 

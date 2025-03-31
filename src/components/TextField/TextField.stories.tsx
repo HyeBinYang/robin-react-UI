@@ -70,6 +70,14 @@ const meta: Meta<typeof TextField> = {
       },
       description: "아이콘 or 단위 (오른쪽)",
     },
+    multiline: {
+      control: "boolean",
+      description: "여러 줄 입력",
+    },
+    maxRows: {
+      control: "number",
+      description: "`multiline === true`시 최대 줄 높이 값",
+    },
   },
 };
 
@@ -88,5 +96,6 @@ export const Example: Story = {
     required: true,
     left: undefined,
     right: undefined,
+    multiline: true,
   },
 };
