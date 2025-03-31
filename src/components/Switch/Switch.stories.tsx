@@ -3,7 +3,6 @@ import type { Meta, StoryObj } from "@storybook/react";
 import Switch from ".";
 import { action } from "@storybook/addon-actions";
 import color from "../../constant/color";
-import Flex from "../Flex";
 
 const meta: Meta<typeof Switch> = {
   title: "Components/Switch",
