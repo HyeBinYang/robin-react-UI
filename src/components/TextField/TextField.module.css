@@ -170,14 +170,6 @@ textarea {
   color: var(--color-gray-600);
 }
 
-.error,
-.error .label,
-.error fieldset,
-.error .helper-text {
-  color: var(--color-red-600) !important;
-  border-color: var(--color-red-600) !important;
-}
-
 .input-wrapper {
   display: flex;
   align-items: center;
@@ -186,4 +178,19 @@ textarea {
 .left {
   display: flex;
   margin-right: 8px;
+}
+
+.error,
+.error .label,
+.error fieldset,
+.error + .helper-text {
+  color: var(--color-red-600) !important;
+  border-color: var(--color-red-600) !important;
+}
+
+.disabled,
+.disabled .label,
+.disabled fieldset,
+.disabled + .helper-text {
+  opacity: 0.6;
 }

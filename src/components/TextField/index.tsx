@@ -91,8 +91,9 @@ const TextField = ({
       [styles.small]: size === "small",
       [styles.error]: error,
       [styles.active]: !!left,
+      [styles.disabled]: inputProps.disabled,
     });
-  }, [label, variant, size, error, left]);
+  }, [label, variant, size, error, left, inputProps.disabled]);
 
   return (
     <div>
