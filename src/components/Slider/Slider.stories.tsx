@@ -17,11 +17,32 @@ const meta: Meta<typeof Slider> = {
     color: {
       control: "select",
       options: Object.keys(color),
-      description: "`Slider` Color",
+      description: "color",
     },
     size: {
       control: "select",
       options: ["medium", "small"],
+      description: "크기",
+    },
+    min: {
+      control: "number",
+      description: "범위의 최솟값",
+    },
+    max: {
+      control: "number",
+      description: "범위의 최댓값",
+    },
+    step: {
+      control: "number",
+      description: "범위의 최솟값",
+    },
+    defaultValue: {
+      control: "number",
+      description: "초기값",
+    },
+    showMarks: {
+      control: "boolean",
+      description: "`mark` 표시 유무",
     },
   },
 };
@@ -31,9 +52,12 @@ type Story = StoryObj<typeof Slider>;
 
 export const Example: Story = {
   args: {
-    min: 5,
-    max: 84,
-    step: 2,
-    size: "small",
+    color: "Blue400",
+    size: "medium",
+    min: 0,
+    max: 49,
+    step: 5,
+    defaultValue: 13,
+    showMarks: false,
   },
 };

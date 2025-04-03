@@ -12,6 +12,7 @@ type Props = {
   max?: number;
   step?: number;
   defaultValue?: number;
+  showMarks?: boolean;
 };
 
 const Slider = ({
@@ -21,8 +22,10 @@ const Slider = ({
   max = 100,
   step = 1,
   defaultValue = min,
+  showMarks = false,
 }: Props) => {
   const [value, setValue] = useState(defaultValue);
+  const [mounted, setMounted] = useState(false);
   const dragging = useRef(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const filledRef = useRef<HTMLDivElement>(null);
@@ -39,6 +42,8 @@ const Slider = ({
 
     document.addEventListener("mousedown", handleMouseDown);
     document.addEventListener("mouseup", handleMouseUp);
+
+    setMounted(true);
 
     return () => {
       document.removeEventListener("mousedown", handleMouseDown);
@@ -66,6 +71,10 @@ const Slider = ({
     thumbRef.current.style.left = `${left}px`;
     filledRef.current.style.width = `${left}px`;
   };
+
+  useEffect(() => {
+    moveThumbByValue(defaultValue);
+  }, [defaultValue]);
 
   const moveThumbByClickedX = (clickedX: number) => {
     assert(containerRef.current !== null && filledRef.current !== null && thumbRef.current !== null);
@@ -135,6 +144,16 @@ const Slider = ({
     }
   };
 
+  const marks = (() => {
+    const marks = [];
+
+    for (let value = min; value <= max; value += step) {
+      marks.push(value);
+    }
+
+    return marks;
+  })();
+
   return (
     <div
       ref={containerRef}
@@ -149,9 +168,30 @@ const Slider = ({
       onMouseMove={handleMouseMove}
     >
       <div ref={filledRef} className={styles["slider-filled"]}></div>
-      <div className={styles["slider-track"]}></div>
+      <div className={styles["slider-track"]}>
+        {showMarks && (
+          <span className={styles["slider-marks"]}>
+            {mounted &&
+              marks.map((mark, index) => {
+                assert(containerRef.current !== null);
+
+                const left = (containerRef.current.clientWidth / (max - min)) * step * (index + 1);
+
+                return (
+                  <span
+                    key={mark}
+                    className={styles["slider-mark"]}
+                    style={{
+                      left: `${left}px`,
+                    }}
+                  ></span>
+                );
+              })}
+          </span>
+        )}
+      </div>
       <div ref={thumbRef} className={styles["slider-thumb"]}>
-        <div className={styles["slider-value"]}>{value}</div>
+        <span className={styles["slider-value"]}>{value}</span>
         <input
           className={styles["slider-input"]}
           type="range"
