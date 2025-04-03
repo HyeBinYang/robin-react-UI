@@ -6,6 +6,10 @@
   cursor: pointer;
 }
 
+.slider-container.disabled {
+  opacity: 0.25;
+}
+
 .slider-container.small {
   height: 2px;
 }

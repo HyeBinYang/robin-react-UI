@@ -44,6 +44,10 @@ const meta: Meta<typeof Slider> = {
       control: "boolean",
       description: "`mark` 표시 유무",
     },
+    disabled: {
+      control: "boolean",
+      description: "활성화 유무",
+    },
   },
 };
 
@@ -59,5 +63,6 @@ export const Example: Story = {
     step: 5,
     defaultValue: 13,
     showMarks: false,
+    disabled: false,
   },
 };

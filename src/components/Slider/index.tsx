@@ -13,6 +13,7 @@ type Props = {
   step?: number;
   defaultValue?: number;
   showMarks?: boolean;
+  disabled?: boolean;
 };
 
 const ANIMATION_DURATION_MS = 150;
@@ -25,6 +26,7 @@ const Slider = ({
   step = 1,
   defaultValue = min,
   showMarks = false,
+  disabled = false,
 }: Props) => {
   const [value, setValue] = useState(defaultValue);
   const [mounted, setMounted] = useState(false);
@@ -109,6 +111,8 @@ const Slider = ({
   };
 
   const handleContainerMouseDown = (event: MouseEvent<HTMLDivElement>) => {
+    if (disabled) return;
+
     assert(filledRef.current !== null && thumbRef.current !== null);
 
     filledRef.current.style.transition = `width ${ANIMATION_DURATION_MS}ms linear`;
@@ -125,11 +129,13 @@ const Slider = ({
   };
 
   const handleMouseMove = (event: MouseEvent<HTMLDivElement>) => {
-    if (!dragging.current) return;
+    if (!dragging.current || disabled) return;
     moveThumbByClickedX(event.clientX);
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (disabled) return;
+
     switch (event.key) {
       case "ArrowUp": {
         const nextValue = value + step;
@@ -162,6 +168,7 @@ const Slider = ({
       className={classNames({
         [styles["slider-container"]]: true,
         [styles.small]: size === "small",
+        [styles.disabled]: disabled,
       })}
       style={{
         color: colors[color],
