@@ -18,8 +18,6 @@ const Slider = ({ color = DEFAULT_COLOR, min = 0, max = 100, step = 1, defaultVa
   const containerRef = useRef<HTMLDivElement>(null);
   const filledRef = useRef<HTMLDivElement>(null);
   const thumbRef = useRef<HTMLDivElement>(null);
-  const valueRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleMouseDown = () => {
@@ -39,26 +37,26 @@ const Slider = ({ color = DEFAULT_COLOR, min = 0, max = 100, step = 1, defaultVa
     };
   }, []);
 
-  function moveThumbByValue(v: number) {
+  const moveThumbByValue = (nextValue: number) => {
     assert(containerRef.current !== null && filledRef.current !== null && thumbRef.current !== null);
 
-    if (v > max) {
-      v = max;
+    if (nextValue > max) {
+      nextValue = max;
       setValue(max);
     } else if (value < min) {
-      v = min;
+      nextValue = min;
       setValue(min);
     } else {
-      setValue(v);
+      setValue(nextValue);
     }
 
     const containerRect = containerRef.current.getBoundingClientRect();
     const n = (containerRect.width / (max - min)) * step;
-    const left = ((v - min) * n) / step;
+    const left = ((nextValue - min) * n) / step;
 
     thumbRef.current.style.left = `${left}px`;
     filledRef.current.style.width = `${left}px`;
-  }
+  };
 
   function moveThumb(x: number) {
     assert(containerRef.current !== null && filledRef.current !== null && thumbRef.current !== null);
@@ -100,8 +98,7 @@ const Slider = ({ color = DEFAULT_COLOR, min = 0, max = 100, step = 1, defaultVa
     moveThumb(event.clientX);
 
     setTimeout(() => {
-      assert(filledRef.current !== null);
-      assert(thumbRef.current !== null);
+      assert(filledRef.current !== null && thumbRef.current !== null);
 
       filledRef.current.style.transition = "";
       thumbRef.current.style.transition = "";
@@ -115,12 +112,16 @@ const Slider = ({ color = DEFAULT_COLOR, min = 0, max = 100, step = 1, defaultVa
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     switch (event.key) {
-      case "ArrowUp":
-        moveThumbByValue(value + step);
+      case "ArrowUp": {
+        const nextValue = value + step;
+        moveThumbByValue(nextValue < max ? nextValue : max);
         break;
-      case "ArrowDown":
-        moveThumbByValue(value - step);
+      }
+      case "ArrowDown": {
+        const nextValue = value - step;
+        moveThumbByValue(nextValue > min ? nextValue : min);
         break;
+      }
       default:
         break;
     }
