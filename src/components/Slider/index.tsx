@@ -38,6 +38,7 @@ const Slider = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const filledRef = useRef<HTMLDivElement>(null);
   const thumbRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const handleMouseDown = () => {
@@ -123,12 +124,15 @@ const Slider = ({
   const handleContainerMouseDown = (event: MouseEvent<HTMLDivElement>) => {
     if (disabled) return;
 
-    assert(filledRef.current !== null && thumbRef.current !== null);
+    event.preventDefault();
+
+    assert(filledRef.current !== null && thumbRef.current !== null && inputRef.current !== null);
 
     filledRef.current.style.transition = `width ${ANIMATION_DURATION_MS}ms linear`;
     thumbRef.current.style.transition = `left ${ANIMATION_DURATION_MS}ms linear`;
 
     moveThumbByClickedX(event.clientX);
+    inputRef.current.focus();
 
     setTimeout(() => {
       assert(filledRef.current !== null && thumbRef.current !== null);
@@ -212,6 +216,7 @@ const Slider = ({
       <div ref={thumbRef} className={styles["slider-thumb"]}>
         {showValueLabel && <span className={styles["slider-value"]}>{value}</span>}
         <input
+          ref={inputRef}
           className={styles["slider-input"]}
           type="range"
           min={min}
