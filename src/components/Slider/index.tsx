@@ -13,6 +13,7 @@ type Props = {
   step?: number;
   defaultValue?: number;
   showMarks?: boolean;
+  showValueLabel?: boolean;
   disabled?: boolean;
 };
 
@@ -26,6 +27,7 @@ const Slider = ({
   step = 1,
   defaultValue = min,
   showMarks = false,
+  showValueLabel = false,
   disabled = false,
 }: Props) => {
   const [value, setValue] = useState(defaultValue);
@@ -200,7 +202,7 @@ const Slider = ({
         )}
       </div>
       <div ref={thumbRef} className={styles["slider-thumb"]}>
-        <span className={styles["slider-value"]}>{value}</span>
+        {showValueLabel && <span className={styles["slider-value"]}>{value}</span>}
         <input
           className={styles["slider-input"]}
           type="range"
