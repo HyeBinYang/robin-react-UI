@@ -20,7 +20,8 @@ type Story = StoryObj<typeof Slider>;
 
 export const Example: Story = {
   args: {
-    defaultValue: 0,
-    step: 5,
+    min: 5,
+    max: 84,
+    step: 2,
   },
 };
