@@ -2,13 +2,14 @@ import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import Slider from ".";
 import color from "../../constant/color";
+import { action } from "@storybook/addon-actions";
 
 const meta: Meta<typeof Slider> = {
   title: "Components/Slider",
   component: Slider,
   decorators: [
     (Story) => (
-      <div style={{ width: "300px" }}>
+      <div style={{ width: "300px", margin: "32px" }}>
         <Story />
       </div>
     ),
@@ -52,6 +53,10 @@ const meta: Meta<typeof Slider> = {
       control: "boolean",
       description: "활성화 유무",
     },
+    onChange: {
+      type: "function",
+      description: "value값이 변경될 때 실행되는 함수",
+    },
   },
 };
 
@@ -69,5 +74,6 @@ export const Example: Story = {
     showMarks: false,
     showValueLabel: false,
     disabled: false,
+    onChange: action("Value: "),
   },
 };

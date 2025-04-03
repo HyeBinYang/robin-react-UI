@@ -15,6 +15,7 @@ type Props = {
   showMarks?: boolean;
   showValueLabel?: boolean;
   disabled?: boolean;
+  onChange?: (value: number) => void;
 };
 
 const ANIMATION_DURATION_MS = 150;
@@ -29,6 +30,7 @@ const Slider = ({
   showMarks = false,
   showValueLabel = false,
   disabled = false,
+  onChange,
 }: Props) => {
   const [value, setValue] = useState(defaultValue);
   const [mounted, setMounted] = useState(false);
@@ -57,7 +59,7 @@ const Slider = ({
     };
   }, []);
 
-  const moveThumbByValue = (nextValue: number) => {
+  const moveThumbByValue = (nextValue: number, callback?: (value: number) => void) => {
     assert(containerRef.current !== null && filledRef.current !== null && thumbRef.current !== null);
 
     if (nextValue > max) {
@@ -76,6 +78,8 @@ const Slider = ({
 
     thumbRef.current.style.left = `${left}px`;
     filledRef.current.style.width = `${left}px`;
+
+    callback?.(nextValue);
   };
 
   useEffect(() => {
@@ -110,6 +114,10 @@ const Slider = ({
 
     assert(typeof nextValue === "number", "변수 'v' 타입이 일치하지 않아요.");
     setValue(() => nextValue);
+
+    if (value !== nextValue) {
+      onChange?.(nextValue);
+    }
   };
 
   const handleContainerMouseDown = (event: MouseEvent<HTMLDivElement>) => {
@@ -141,12 +149,12 @@ const Slider = ({
     switch (event.key) {
       case "ArrowUp": {
         const nextValue = value + step;
-        moveThumbByValue(nextValue < max ? nextValue : max);
+        moveThumbByValue(nextValue < max ? nextValue : max, onChange);
         break;
       }
       case "ArrowDown": {
         const nextValue = value - step;
-        moveThumbByValue(nextValue > min ? nextValue : min);
+        moveThumbByValue(nextValue > min ? nextValue : min, onChange);
         break;
       }
       default:
