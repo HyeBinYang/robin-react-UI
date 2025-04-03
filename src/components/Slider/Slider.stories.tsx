@@ -1,6 +1,7 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import Slider from ".";
+import color from "../../constant/color";
 
 const meta: Meta<typeof Slider> = {
   title: "Components/Slider",
@@ -12,7 +13,17 @@ const meta: Meta<typeof Slider> = {
       </div>
     ),
   ],
-  argTypes: {},
+  argTypes: {
+    color: {
+      control: "select",
+      options: Object.keys(color),
+      description: "`Slider` Color",
+    },
+    size: {
+      control: "select",
+      options: ["medium", "small"],
+    },
+  },
 };
 
 export default meta;
@@ -23,5 +34,6 @@ export const Example: Story = {
     min: 5,
     max: 84,
     step: 2,
+    size: "small",
   },
 };

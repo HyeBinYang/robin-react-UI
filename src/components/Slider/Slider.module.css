@@ -6,6 +6,10 @@
   cursor: pointer;
 }
 
+.slider-container.small {
+  height: 2px;
+}
+
 .slider-filled {
   position: absolute;
   top: 50%;
@@ -40,6 +44,11 @@
   background-color: currentColor;
 }
 
+.small .slider-thumb {
+  width: 12px;
+  height: 12px;
+}
+
 .slider-value {
   position: absolute;
   top: -50%;
@@ -50,20 +59,31 @@
   align-items: center;
   justify-content: center;
   border-radius: 2px;
-  background-color: lightgray;
+  background-color: var(--color-gray-500);
   font-size: 0.75rem;
+  font-weight: 600;
   color: white;
+}
+
+.small .slider-value {
+  min-width: 20px;
+  padding: 2px 8px;
 }
 
 .slider-value::after {
   content: "";
-  background-color: lightgray;
   position: absolute;
   top: 100%;
   left: 50%;
   transform: translate(-50%, -50%) rotate(45deg);
   width: 8px;
   height: 8px;
+  background-color: var(--color-gray-500);
+}
+
+.small .slider-value::after {
+  width: 6px;
+  height: 6px;
 }
 
 .slider-input {

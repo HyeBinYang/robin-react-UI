@@ -3,16 +3,25 @@ import styles from "./Slider.module.css";
 import colors from "../../constant/color";
 import { DEFAULT_COLOR } from "../../constant/common";
 import assert from "../../utils/assert";
+import classNames from "classnames";
 
 type Props = {
   color?: keyof typeof colors;
+  size?: "medium" | "small";
   min?: number;
   max?: number;
   step?: number;
   defaultValue?: number;
 };
 
-const Slider = ({ color = DEFAULT_COLOR, min = 0, max = 100, step = 1, defaultValue = min }: Props) => {
+const Slider = ({
+  color = DEFAULT_COLOR,
+  size = "medium",
+  min = 0,
+  max = 100,
+  step = 1,
+  defaultValue = min,
+}: Props) => {
   const [value, setValue] = useState(defaultValue);
   const dragging = useRef(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -129,7 +138,10 @@ const Slider = ({ color = DEFAULT_COLOR, min = 0, max = 100, step = 1, defaultVa
   return (
     <div
       ref={containerRef}
-      className={styles["slider-container"]}
+      className={classNames({
+        [styles["slider-container"]]: true,
+        [styles.small]: size === "small",
+      })}
       style={{
         color: colors[color],
       }}
