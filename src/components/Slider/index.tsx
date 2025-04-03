@@ -15,6 +15,8 @@ type Props = {
   showMarks?: boolean;
 };
 
+const ANIMATION_DURATION_MS = 150;
+
 const Slider = ({
   color = DEFAULT_COLOR,
   size = "medium",
@@ -109,8 +111,8 @@ const Slider = ({
   const handleContainerMouseDown = (event: MouseEvent<HTMLDivElement>) => {
     assert(filledRef.current !== null && thumbRef.current !== null);
 
-    filledRef.current.style.transition = "width 0.15s linear";
-    thumbRef.current.style.transition = "left 0.15s linear";
+    filledRef.current.style.transition = `width ${ANIMATION_DURATION_MS}ms linear`;
+    thumbRef.current.style.transition = `left ${ANIMATION_DURATION_MS}ms linear`;
 
     moveThumbByClickedX(event.clientX);
 
@@ -119,7 +121,7 @@ const Slider = ({
 
       filledRef.current.style.transition = "";
       thumbRef.current.style.transition = "";
-    }, 150);
+    }, ANIMATION_DURATION_MS);
   };
 
   const handleMouseMove = (event: MouseEvent<HTMLDivElement>) => {
