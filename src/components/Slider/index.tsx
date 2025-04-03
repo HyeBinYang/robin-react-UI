@@ -51,43 +51,42 @@ const Slider = ({ color = DEFAULT_COLOR, min = 0, max = 100, step = 1, defaultVa
     }
 
     const containerRect = containerRef.current.getBoundingClientRect();
-    const n = (containerRect.width / (max - min)) * step;
-    const left = ((nextValue - min) * n) / step;
+    const markWidth = (containerRect.width / (max - min)) * step;
+    const left = ((nextValue - min) * markWidth) / step;
 
     thumbRef.current.style.left = `${left}px`;
     filledRef.current.style.width = `${left}px`;
   };
 
-  function moveThumb(x: number) {
+  const moveThumbByClickedX = (clickedX: number) => {
     assert(containerRef.current !== null && filledRef.current !== null && thumbRef.current !== null);
 
     const containerRect = containerRef.current.getBoundingClientRect();
-    const n = (containerRect.width / (max - min)) * step;
-    const diff = x - containerRect.left;
+    const markWidth = (containerRect.width / (max - min)) * step;
+    const diff = clickedX - containerRect.left;
     let left = 0;
-    let v: number;
+    let nextValue: number;
 
     if (diff <= 0) {
-      v = min;
+      nextValue = min;
       left = 0;
     } else if (diff >= containerRect.width - 2) {
-      v = max;
+      nextValue = max;
       left = containerRect.width;
     } else {
-      v = diff ? Math.round(diff / n) * step + min : defaultValue;
+      nextValue = diff ? Math.round(diff / markWidth) * step + min : defaultValue;
 
-      if (v > max) v = max;
+      if (nextValue > max) nextValue = max;
 
-      left = ((v - min) * n) / step;
+      left = ((nextValue - min) * markWidth) / step;
     }
 
     thumbRef.current.style.left = `${left}px`;
     filledRef.current.style.width = `${left}px`;
 
-    assert(typeof v === "number", "변수 'v' 타입이 일치하지 않아요.");
-
-    setValue(() => v);
-  }
+    assert(typeof nextValue === "number", "변수 'v' 타입이 일치하지 않아요.");
+    setValue(() => nextValue);
+  };
 
   const handleContainerMouseDown = (event: MouseEvent<HTMLDivElement>) => {
     assert(filledRef.current !== null && thumbRef.current !== null);
@@ -95,7 +94,7 @@ const Slider = ({ color = DEFAULT_COLOR, min = 0, max = 100, step = 1, defaultVa
     filledRef.current.style.transition = "width 0.15s linear";
     thumbRef.current.style.transition = "left 0.15s linear";
 
-    moveThumb(event.clientX);
+    moveThumbByClickedX(event.clientX);
 
     setTimeout(() => {
       assert(filledRef.current !== null && thumbRef.current !== null);
@@ -107,7 +106,7 @@ const Slider = ({ color = DEFAULT_COLOR, min = 0, max = 100, step = 1, defaultVa
 
   const handleMouseMove = (event: MouseEvent<HTMLDivElement>) => {
     if (!dragging.current) return;
-    moveThumb(event.clientX);
+    moveThumbByClickedX(event.clientX);
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
