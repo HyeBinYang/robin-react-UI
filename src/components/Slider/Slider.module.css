@@ -56,7 +56,9 @@
 .slider-value {
   position: absolute;
   top: -50%;
-  transform: translate(0%, -100%);
+  transform: translate(0%, -100%) scale(0);
+  transform-origin: bottom;
+  transition: transform 0.1s linear;
   min-width: 40px;
   padding: 4px 12px;
   display: flex;
@@ -67,6 +69,10 @@
   font-size: 0.75rem;
   font-weight: 600;
   color: white;
+}
+
+.slider-value.display-on {
+  transform: translate(0%, -100%) scale(1);
 }
 
 .small .slider-value {

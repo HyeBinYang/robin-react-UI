@@ -5,6 +5,8 @@ import { DEFAULT_COLOR } from "../../constant/common";
 import assert from "../../utils/assert";
 import classNames from "classnames";
 
+type ValueLabelDisplay = "auto" | "on" | "off";
+
 type Props = {
   color?: keyof typeof colors;
   size?: "medium" | "small";
@@ -13,7 +15,7 @@ type Props = {
   step?: number;
   defaultValue?: number;
   showMarks?: boolean;
-  showValueLabel?: boolean;
+  valueLabelDisplay?: ValueLabelDisplay;
   disabled?: boolean;
   onChange?: (value: number) => void;
 };
@@ -28,17 +30,19 @@ const Slider = ({
   step = 1,
   defaultValue = min,
   showMarks = false,
-  showValueLabel = false,
+  valueLabelDisplay = "auto",
   disabled = false,
   onChange,
 }: Props) => {
   const [value, setValue] = useState(defaultValue);
   const [mounted, setMounted] = useState(false);
+
   const dragging = useRef(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const filledRef = useRef<HTMLDivElement>(null);
   const thumbRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const valueLabelRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const handleMouseDown = () => {
@@ -166,6 +170,22 @@ const Slider = ({
     }
   };
 
+  const handleThumbMouseEnter = () => {
+    assert(valueLabelRef.current !== null);
+
+    if (valueLabelDisplay === "auto") {
+      valueLabelRef.current.style.transform = "translate(0%, -100%) scale(1)";
+    }
+  };
+
+  const handleThumbMouseLeave = () => {
+    assert(valueLabelRef.current !== null);
+
+    if (valueLabelDisplay === "auto") {
+      valueLabelRef.current.style.transform = "translate(0%, -100%) scale(0)";
+    }
+  };
+
   const marks = (() => {
     const marks = [];
 
@@ -213,8 +233,21 @@ const Slider = ({
           </span>
         )}
       </div>
-      <div ref={thumbRef} className={styles["slider-thumb"]}>
-        {showValueLabel && <span className={styles["slider-value"]}>{value}</span>}
+      <div
+        ref={thumbRef}
+        className={styles["slider-thumb"]}
+        onMouseEnter={handleThumbMouseEnter}
+        onMouseLeave={handleThumbMouseLeave}
+      >
+        <span
+          ref={valueLabelRef}
+          className={classNames({
+            [styles["slider-value"]]: true,
+            [styles["display-on"]]: valueLabelDisplay === "on",
+          })}
+        >
+          {value}
+        </span>
         <input
           ref={inputRef}
           className={styles["slider-input"]}

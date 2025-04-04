@@ -45,9 +45,10 @@ const meta: Meta<typeof Slider> = {
       control: "boolean",
       description: "`mark` 표시 유무",
     },
-    showValueLabel: {
-      control: "boolean",
-      description: "`value label` 표시 유무",
+    valueLabelDisplay: {
+      control: "select",
+      options: ["auto", "on", "off"],
+      description: "`value label` 표시 방법",
     },
     disabled: {
       control: "boolean",
@@ -72,7 +73,7 @@ export const Example: Story = {
     step: 5,
     defaultValue: 13,
     showMarks: false,
-    showValueLabel: false,
+    valueLabelDisplay: "auto",
     disabled: false,
     onChange: action("Value: "),
   },
