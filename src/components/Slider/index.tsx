@@ -17,6 +17,7 @@ type Props = {
   showMarks?: boolean;
   valueLabelDisplay?: ValueLabelDisplay;
   disabled?: boolean;
+  orientation: "horizontal" | "vertical";
   onChange?: (value: number) => void;
 };
 
@@ -32,6 +33,7 @@ const Slider = ({
   showMarks = false,
   valueLabelDisplay = "auto",
   disabled = false,
+  orientation = "horizontal",
   onChange,
 }: Props) => {
   const [value, setValue] = useState(defaultValue);
@@ -78,11 +80,19 @@ const Slider = ({
     }
 
     const containerRect = containerRef.current.getBoundingClientRect();
-    const markWidth = (containerRect.width / (max - min)) * step;
-    const left = ((nextValue - min) * markWidth) / step;
+    const markWidth =
+      orientation === "horizontal"
+        ? (containerRect.width / (max - min)) * step
+        : (containerRect.height / (max - min)) * step;
+    const offset = ((nextValue - min) * markWidth) / step;
 
-    thumbRef.current.style.left = `${left}px`;
-    filledRef.current.style.width = `${left}px`;
+    if (orientation === "horizontal") {
+      thumbRef.current.style.left = `${offset}px`;
+      filledRef.current.style.width = `${offset}px`;
+    } else {
+      thumbRef.current.style.bottom = `${offset}px`;
+      filledRef.current.style.height = `${offset}px`;
+    }
 
     callback?.(nextValue);
   };
@@ -91,31 +101,37 @@ const Slider = ({
     moveThumbByValue(defaultValue);
   }, [defaultValue]);
 
-  const moveThumbByClickedX = (clickedX: number) => {
+  const moveThumbByClickedPos = (clickedPos: number) => {
     assert(containerRef.current !== null && filledRef.current !== null && thumbRef.current !== null);
 
     const containerRect = containerRef.current.getBoundingClientRect();
-    const markWidth = (containerRect.width / (max - min)) * step;
-    const diff = clickedX - containerRect.left;
-    let left = 0;
+    const containerSize = orientation === "horizontal" ? containerRect.width : containerRect.height;
+    const markWidth = (containerSize / (max - min)) * step;
+    const diff = orientation === "horizontal" ? clickedPos - containerRect.left : containerRect.bottom - clickedPos;
+    let offset = 0;
     let nextValue: number;
 
     if (diff <= 0) {
       nextValue = min;
-      left = 0;
-    } else if (diff >= containerRect.width - 2) {
+      offset = 0;
+    } else if (diff >= containerSize - 2) {
       nextValue = max;
-      left = containerRect.width;
+      offset = containerSize;
     } else {
       nextValue = diff ? Math.round(diff / markWidth) * step + min : defaultValue;
 
       if (nextValue > max) nextValue = max;
 
-      left = ((nextValue - min) * markWidth) / step;
+      offset = ((nextValue - min) * markWidth) / step;
     }
 
-    thumbRef.current.style.left = `${left}px`;
-    filledRef.current.style.width = `${left}px`;
+    if (orientation === "horizontal") {
+      thumbRef.current.style.left = `${offset}px`;
+      filledRef.current.style.width = `${offset}px`;
+    } else {
+      thumbRef.current.style.bottom = `${offset}px`;
+      filledRef.current.style.height = `${offset}px`;
+    }
 
     assert(typeof nextValue === "number", "변수 'v' 타입이 일치하지 않아요.");
     setValue(() => nextValue);
@@ -132,10 +148,15 @@ const Slider = ({
 
     assert(filledRef.current !== null && thumbRef.current !== null && inputRef.current !== null);
 
-    filledRef.current.style.transition = `width ${ANIMATION_DURATION_MS}ms linear`;
-    thumbRef.current.style.transition = `left ${ANIMATION_DURATION_MS}ms linear`;
+    if (orientation === "horizontal") {
+      filledRef.current.style.transition = `width ${ANIMATION_DURATION_MS}ms linear`;
+      thumbRef.current.style.transition = `left ${ANIMATION_DURATION_MS}ms linear`;
+    } else {
+      filledRef.current.style.transition = `height ${ANIMATION_DURATION_MS}ms linear`;
+      thumbRef.current.style.transition = `bottom ${ANIMATION_DURATION_MS}ms linear`;
+    }
 
-    moveThumbByClickedX(event.clientX);
+    moveThumbByClickedPos(orientation === "horizontal" ? event.clientX : event.clientY);
     inputRef.current.focus();
 
     setTimeout(() => {
@@ -148,19 +169,21 @@ const Slider = ({
 
   const handleMouseMove = (event: MouseEvent<HTMLDivElement>) => {
     if (!dragging.current || disabled) return;
-    moveThumbByClickedX(event.clientX);
+    moveThumbByClickedPos(orientation === "horizontal" ? event.clientX : event.clientY);
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (disabled) return;
 
     switch (event.key) {
-      case "ArrowUp": {
+      case "ArrowUp":
+      case "ArrowRight": {
         const nextValue = value + step;
         moveThumbByValue(nextValue < max ? nextValue : max, onChange);
         break;
       }
-      case "ArrowDown": {
+      case "ArrowDown":
+      case "ArrowLeft": {
         const nextValue = value - step;
         moveThumbByValue(nextValue > min ? nextValue : min, onChange);
         break;
@@ -174,7 +197,8 @@ const Slider = ({
     assert(valueLabelRef.current !== null);
 
     if (valueLabelDisplay === "auto") {
-      valueLabelRef.current.style.transform = "translate(0%, -100%) scale(1)";
+      valueLabelRef.current.style.transform =
+        orientation === "horizontal" ? "translate(0%, -100%) scale(1)" : "scale(1)";
     }
   };
 
@@ -182,7 +206,8 @@ const Slider = ({
     assert(valueLabelRef.current !== null);
 
     if (valueLabelDisplay === "auto") {
-      valueLabelRef.current.style.transform = "translate(0%, -100%) scale(0)";
+      valueLabelRef.current.style.transform =
+        orientation === "horizontal" ? "translate(0%, -100%) scale(0)" : "scale(0)";
     }
   };
 
@@ -203,6 +228,7 @@ const Slider = ({
         [styles["slider-container"]]: true,
         [styles.small]: size === "small",
         [styles.disabled]: disabled,
+        [styles.vertical]: orientation === "vertical",
       })}
       style={{
         color: colors[color],

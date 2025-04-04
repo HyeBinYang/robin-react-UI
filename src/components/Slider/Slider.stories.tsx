@@ -9,7 +9,7 @@ const meta: Meta<typeof Slider> = {
   component: Slider,
   decorators: [
     (Story) => (
-      <div style={{ width: "300px", margin: "32px" }}>
+      <div style={{ width: "300px", height: "300px", margin: "32px" }}>
         <Story />
       </div>
     ),
@@ -54,6 +54,11 @@ const meta: Meta<typeof Slider> = {
       control: "boolean",
       description: "활성화 유무",
     },
+    orientation: {
+      control: "select",
+      options: ["horizontal", "vertical"],
+      description: "`Slider` 방향",
+    },
     onChange: {
       type: "function",
       description: "value값이 변경될 때 실행되는 함수",
@@ -67,14 +72,15 @@ type Story = StoryObj<typeof Slider>;
 export const Example: Story = {
   args: {
     color: "Blue400",
-    size: "medium",
+    size: "small",
     min: 0,
-    max: 49,
+    max: 100000,
     step: 5,
     defaultValue: 13,
     showMarks: false,
     valueLabelDisplay: "auto",
     disabled: false,
+    orientation: "vertical",
     onChange: action("Value: "),
   },
 };
