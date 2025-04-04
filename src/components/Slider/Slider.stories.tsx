@@ -3,15 +3,23 @@ import type { Meta, StoryObj } from "@storybook/react";
 import Slider from ".";
 import color from "../../constant/color";
 import { action } from "@storybook/addon-actions";
+import Flex from "../Flex";
 
 const meta: Meta<typeof Slider> = {
   title: "Components/Slider",
   component: Slider,
   decorators: [
     (Story) => (
-      <div style={{ width: "300px", height: "300px", margin: "32px" }}>
+      <Flex
+        alignItems="center"
+        justifyContent="center"
+        style={{
+          width: "300px",
+          height: "300px",
+        }}
+      >
         <Story />
-      </div>
+      </Flex>
     ),
   ],
   argTypes: {
@@ -72,12 +80,12 @@ type Story = StoryObj<typeof Slider>;
 export const Example: Story = {
   args: {
     color: "Blue400",
-    size: "small",
+    size: "medium",
     min: 0,
-    max: 100000,
-    step: 5,
-    defaultValue: 13,
-    showMarks: false,
+    max: 100,
+    step: 1,
+    defaultValue: 0,
+    showMarks: true,
     valueLabelDisplay: "auto",
     disabled: false,
     orientation: "vertical",

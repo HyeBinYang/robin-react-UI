@@ -1,13 +1,10 @@
 .slider-container {
   position: relative;
+  width: 100%;
   height: 4px;
   padding: 13px 0;
   touch-action: none;
   cursor: pointer;
-}
-
-.slider-container.disabled {
-  opacity: 0.25;
 }
 
 .slider-container.small {
@@ -22,6 +19,10 @@
 
 .slider-container.vertical.small {
   width: 2px;
+}
+
+.slider-container.disabled {
+  opacity: 0.25;
 }
 
 .slider-filled {
@@ -74,16 +75,16 @@
   background-color: currentColor;
 }
 
+.small .slider-thumb {
+  width: 12px;
+  height: 12px;
+}
+
 .vertical .slider-thumb {
   top: auto;
   bottom: 0;
   left: 50%;
   transform: translate(-50%, 50%);
-}
-
-.small .slider-thumb {
-  width: 12px;
-  height: 12px;
 }
 
 .slider-value {
@@ -104,31 +105,6 @@
   color: white;
 }
 
-.vertical .slider-value {
-  top: auto;
-  right: 30px;
-  transform: scale(0);
-  transform-origin: right;
-  padding: 4px 12px;
-}
-
-.vertical.small .slider-value {
-  right: 20px;
-}
-
-.slider-value.display-on {
-  transform: translate(0%, -100%) scale(1);
-}
-
-.vertical .slider-value.display-on {
-  transform: translate(0%, 0%) scale(1);
-}
-
-.small .slider-value {
-  min-width: 20px;
-  padding: 2px 8px;
-}
-
 .slider-value::after {
   content: "";
   position: absolute;
@@ -140,14 +116,39 @@
   background-color: var(--color-gray-500);
 }
 
-.vertical .slider-value::after {
-  top: 50%;
-  left: 100%;
+.slider-value.display-on {
+  transform: translate(0%, -100%) scale(1);
+}
+
+.small .slider-value {
+  min-width: 20px;
+  padding: 2px 8px;
 }
 
 .small .slider-value::after {
   width: 6px;
   height: 6px;
+}
+
+.vertical .slider-value {
+  top: auto;
+  right: 30px;
+  transform: scale(0);
+  transform-origin: right;
+  padding: 4px 12px;
+}
+
+.vertical .slider-value.display-on {
+  transform: translate(0%, 0%) scale(1);
+}
+
+.vertical.small .slider-value {
+  right: 20px;
+}
+
+.vertical .slider-value::after {
+  top: 50%;
+  left: 100%;
 }
 
 .slider-input {
@@ -169,6 +170,15 @@
   height: inherit;
 }
 
+.vertical .slider-marks {
+  top: auto;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: inherit;
+  height: 100%;
+}
+
 .slider-mark {
   position: absolute;
   top: 50%;
@@ -179,4 +189,10 @@
   height: 2px;
   border-radius: 50%;
   background-color: #fff;
+}
+
+.vertical .slider-mark {
+  top: auto;
+  left: 50%;
+  transform: translateX(-50%);
 }

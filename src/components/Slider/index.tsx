@@ -17,7 +17,7 @@ type Props = {
   showMarks?: boolean;
   valueLabelDisplay?: ValueLabelDisplay;
   disabled?: boolean;
-  orientation: "horizontal" | "vertical";
+  orientation?: "horizontal" | "vertical";
   onChange?: (value: number) => void;
 };
 
@@ -244,15 +244,23 @@ const Slider = ({
               marks.map((mark, index) => {
                 assert(containerRef.current !== null);
 
-                const left = (containerRef.current.clientWidth / (max - min)) * step * (index + 1);
+                const containerSize =
+                  orientation === "horizontal" ? containerRef.current.clientWidth : containerRef.current.clientHeight;
+                const offset = (containerSize / (max - min)) * step * (index + 1);
 
                 return (
                   <span
                     key={mark}
                     className={styles["slider-mark"]}
-                    style={{
-                      left: `${left}px`,
-                    }}
+                    style={
+                      orientation === "horizontal"
+                        ? {
+                            left: `${offset}px`,
+                          }
+                        : {
+                            bottom: `${offset}px`,
+                          }
+                    }
                   ></span>
                 );
               })}
