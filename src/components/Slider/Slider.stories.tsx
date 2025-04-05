@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import Slider from ".";
 import color from "../../constant/color";
 import { action } from "@storybook/addon-actions";
-import Flex from "../Flex";
+import Flex from "../../layouts/Flex";
 
 const meta: Meta<typeof Slider> = {
   title: "Components/Slider",
@@ -85,10 +85,10 @@ export const Example: Story = {
     max: 100,
     step: 1,
     defaultValue: 0,
-    showMarks: true,
+    showMarks: false,
     valueLabelDisplay: "auto",
     disabled: false,
-    orientation: "vertical",
+    orientation: "horizontal",
     onChange: action("Value: "),
   },
 };

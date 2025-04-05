@@ -1,6 +1,6 @@
 import React from "react";
 import Button from ".";
-import Flex from "../Flex";
+import Flex from "../../layouts/Flex";
 import type { Meta, StoryObj } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import color from "../../constant/color";

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import Radio from ".";
-import Flex from "../Flex";
+import Flex from "../../layouts/Flex";
 import color from "../../constant/color";
 
 const meta: Meta<typeof Radio> = {
