@@ -1,7 +1,7 @@
 import React, { MouseEvent, useEffect, useRef, useState } from "react";
 import style from "./Select.module.css";
 import classNames from "classnames";
-import Flex from "../Flex";
+import Flex from "../../layouts/Flex";
 
 type SelectOption = {
   label: string;
