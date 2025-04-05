@@ -1,8 +1,10 @@
 import React, { PropsWithChildren, useState } from "react";
 import styles from "./Avatar.module.css";
 import colors from "../../constant/color";
+import classNames from "classnames";
 
 type Props = {
+  variant?: "circular" | "square" | "rounded";
   src?: string;
   alt?: string;
   width?: number;
@@ -16,6 +18,7 @@ const DEFAULT_BACKGROUND_COLOR = "Gray600";
 const DEFAULT_TEXT_COLOR = "Black";
 
 const Avatar = ({
+  variant = "circular",
   children,
   src,
   alt,
@@ -28,7 +31,11 @@ const Avatar = ({
 
   return (
     <div
-      className={styles["avatar-root"]}
+      className={classNames({
+        [styles["avatar-root"]]: true,
+        [styles.square]: variant === "square",
+        [styles.rounded]: variant === "rounded",
+      })}
       style={{
         width: `${width}px`,
         height: `${height}px`,
