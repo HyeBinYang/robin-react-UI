@@ -1,20 +1,17 @@
+import isValidHex from "./isValidHex";
+
 export default function hexToRgb(hex: string, alpha?: number): string | null {
   const cleaned = hex.replace("#", "");
 
-  if (![3, 6].includes(cleaned.length)) return null;
+  if (cleaned.length !== 6 || cleaned.includes("#")) return null;
 
-  // #abc → #aabbcc로 확장
-  const fullHex =
-    cleaned.length === 3
-      ? cleaned
-          .split("")
-          .map((c) => c + c)
-          .join("")
-      : cleaned;
+  const r = cleaned.slice(0, 2);
+  const g = cleaned.slice(2, 4);
+  const b = cleaned.slice(4, 6);
 
-  const r = parseInt(fullHex.slice(0, 2), 16);
-  const g = parseInt(fullHex.slice(2, 4), 16);
-  const b = parseInt(fullHex.slice(4, 6), 16);
+  if (!isValidHex(r) || !isValidHex(g) || !isValidHex(b)) return null;
 
-  return alpha ? `rgba(${r}, ${g}, ${b}, ${alpha})` : `rgb(${r}, ${g}, ${b})`;
+  return alpha
+    ? `rgba(${parseInt(r, 16)}, ${parseInt(g, 16)}, ${parseInt(b, 16)}, ${alpha})`
+    : `rgb(${parseInt(r, 16)}, ${parseInt(g, 16)}, ${parseInt(b, 16)})`;
 }
