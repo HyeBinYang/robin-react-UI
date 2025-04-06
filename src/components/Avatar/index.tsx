@@ -7,13 +7,14 @@ type Props = {
   variant?: "circular" | "square" | "rounded";
   src?: string;
   alt?: string;
-  width?: number;
-  height?: number;
+  width?: string | number;
+  height?: string | number;
   background?: keyof typeof colors;
   textColor?: keyof typeof colors;
+  className?: string;
 };
 
-const DEFAULT_SIZE = 40;
+const DEFAULT_SIZE = "1em";
 const DEFAULT_BACKGROUND_COLOR = "Gray600";
 const DEFAULT_TEXT_COLOR = "Black";
 
@@ -26,19 +27,23 @@ const Avatar = ({
   height = DEFAULT_SIZE,
   background = DEFAULT_BACKGROUND_COLOR,
   textColor = DEFAULT_TEXT_COLOR,
+  className,
 }: PropsWithChildren<Props>) => {
   const [hasError, setHasError] = useState(false);
 
   return (
     <div
-      className={classNames({
-        [styles["avatar-root"]]: true,
-        [styles.square]: variant === "square",
-        [styles.rounded]: variant === "rounded",
-      })}
+      className={classNames(
+        {
+          [styles["avatar-root"]]: true,
+          [styles.square]: variant === "square",
+          [styles.rounded]: variant === "rounded",
+        },
+        className
+      )}
       style={{
-        width: `${width}px`,
-        height: `${height}px`,
+        width: typeof width === "number" ? `${width}px` : width,
+        height: typeof height === "number" ? `${height}px` : height,
         backgroundColor: !src || hasError ? colors[background] : "transparent",
         color: colors[textColor],
       }}

@@ -8,8 +8,8 @@ import hexToRgb from "../../utils/hexToRgb";
 type IconProps = {
   className?: string;
   style?: React.CSSProperties;
-  width?: string;
-  height?: string;
+  width?: string | number;
+  height?: string | number;
   onClick?: React.MouseEventHandler<HTMLElement>;
 };
 
@@ -115,8 +115,8 @@ const Chip = ({
           style: {
             color: variant === "filled" ? colors["White"] : colors[backgroundColor],
           },
-          width: "1em",
-          height: "1em",
+          width: icon.type === "svg" ? "1em" : undefined,
+          height: icon.type === "svg" ? "1em" : undefined,
         })}
       <span className={styles["chip-label"]}>{label}</span>
       {!!onDelete &&

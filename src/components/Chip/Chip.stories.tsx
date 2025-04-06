@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import Chip from ".";
 import color from "../../constant/color";
-import { DEFAULT_COLOR } from "../../constant/common";
+import Avatar from "../Avatar";
 
 const meta: Meta<typeof Chip> = {
   title: "Components/Chip",
@@ -38,15 +38,25 @@ const meta: Meta<typeof Chip> = {
       options: ["None", "Icon 1", "Icon 2"],
       mapping: {
         None: undefined,
-        Text: <p>kg</p>,
-        Icon: (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M12 2L14.09 8.26L21 9.27L15.45 13.97L16.82 21L12 17.27L7.18 21L8.55 13.97L3 9.27L9.91 8.26L12 2Z"
-              fill="gold"
-              stroke="black"
-              stroke-width="1"
-            />
+        "Icon 1": (
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        ),
+        "Icon 2": (
+          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="12" />
+            <line x1="8" y1="8" x2="16" y2="16" stroke={color["Blue400"]} strokeWidth="2" strokeLinecap="round" />
+            <line x1="16" y1="8" x2="8" y2="16" stroke={color["Blue400"]} strokeWidth="2" strokeLinecap="round" />
           </svg>
         ),
       },
@@ -57,17 +67,13 @@ const meta: Meta<typeof Chip> = {
       options: ["None", "Icon 1", "Icon 2"],
       mapping: {
         None: undefined,
-        Text: <p>kg</p>,
-        Icon: (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M12 2L14.09 8.26L21 9.27L15.45 13.97L16.82 21L12 17.27L7.18 21L8.55 13.97L3 9.27L9.91 8.26L12 2Z"
-              fill="gold"
-              stroke="black"
-              stroke-width="1"
-            />
+        "Icon 1": (
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="8" r="4" fill="currentColor" />
+            <path d="M4 20c0-4 4-6 8-6s8 2 8 6" fill="currentColor" />
           </svg>
         ),
+        "Icon 2": <Avatar src="https://picsum.photos/200" alt="photo" />,
       },
       description: "`Chip` 왼쪽 커스텀 아이콘",
     },
@@ -89,32 +95,13 @@ type Story = StoryObj<typeof Chip>;
 export const Example: Story = {
   args: {
     label: "Chip",
-    variant: "filled",
-    size: "medium",
-    backgroundColor: DEFAULT_COLOR,
-    labelColor: "White",
-    deleteIcon: (
-      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M3 6h18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-        <path d="M8 6V4a1 1 0 011-1h6a1 1 0 011 1v2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-        <path
-          d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path d="M10 11v6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-        <path d="M14 11v6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-      </svg>
-    ),
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="12" cy="8" r="4" fill="currentColor" />
-        <path d="M4 20c0-4 4-6 8-6s8 2 8 6" fill="currentColor" />
-      </svg>
-    ),
-    onClick: action("Click Chip"),
     onDelete: action("Delete Chip"),
+  },
+};
+
+export const Clickable: Story = {
+  args: {
+    label: "Chip",
+    onClick: action("Click Chip"),
   },
 };
