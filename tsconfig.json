@@ -14,6 +14,13 @@
     "allowSyntheticDefaultImports": true,
     "emitDeclarationOnly": true,
     "allowUmdGlobalAccess": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/types/*": ["src/types/*"],
+      "@/components/*": ["src/components/*"],
+      "@/layouts/*": ["src/layouts/*"],
+      "@/constants/*": ["src/constant/*"]
+    },
     "plugins": [
       {
         "name": "typescript-plugin-css-modules"
@@ -21,5 +28,5 @@
     ]
   },
   "include": ["src/**/*"],
-  "exclude": ["**/*.stories.tsx"]
+  "exclude": []
 }

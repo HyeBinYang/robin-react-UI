@@ -256,6 +256,6 @@ const color = {
   BlueGray900: "#263238",
   Black: "#000000",
   White: "#FFFFFF",
-};
+} as const;
 
 export default color;

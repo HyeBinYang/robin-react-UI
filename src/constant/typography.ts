@@ -20,6 +20,6 @@ const typography = {
   Body4Regular: "400 14px/1.5 Pretendard",
   Detail1: "400 13px/1.5 Pretendard",
   Detail2: "400 12px/1.5 Pretendard",
-};
+} as const;
 
 export default typography;

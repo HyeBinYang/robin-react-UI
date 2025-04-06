@@ -23,7 +23,9 @@ export default {
     }),
     commonjs(),
     resolve(),
-    typescript(),
+    typescript({
+      tsconfig: "./tsconfig.build.json",
+    }),
     babel({
       presets: [["@babel/preset-env"], ["@babel/preset-react", { runtime: "automatic" }]],
       extensions: [".js", ".jsx", ".ts", ".tsx"],
