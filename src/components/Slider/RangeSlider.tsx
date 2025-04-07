@@ -137,8 +137,14 @@ const RangeSlider = ({
 
     const minThumbRect = minThumbRef.current.getBoundingClientRect();
     const maxThumbRect = maxThumbRef.current.getBoundingClientRect();
-    const distanceMinThumb = Math.abs(minThumbRect.left + minThumbRect.width / 2 - clickedPos);
-    const distanceMaxThumb = Math.abs(maxThumbRect.left + minThumbRect.width / 2 - clickedPos);
+    const distanceMinThumb =
+      orientation === "horizontal"
+        ? Math.abs(minThumbRect.left + minThumbRect.width / 2 - clickedPos)
+        : Math.abs(minThumbRect.top + minThumbRect.height / 2 - clickedPos);
+    const distanceMaxThumb =
+      orientation === "horizontal"
+        ? Math.abs(maxThumbRect.left + minThumbRect.width / 2 - clickedPos)
+        : Math.abs(maxThumbRect.top + minThumbRect.height / 2 - clickedPos);
 
     return distanceMinThumb < distanceMaxThumb;
   };
@@ -292,13 +298,24 @@ const RangeSlider = ({
 
     const minThumbRect = minThumbRef.current.getBoundingClientRect();
     const maxThumbRect = maxThumbRef.current.getBoundingClientRect();
-    const minThumbLeft = minThumbRect.left;
-    const maxThumbLeft = maxThumbRect.left;
-    const width = Math.abs(maxThumbLeft - minThumbLeft);
-    const left = Math.min(minThumbLeft, maxThumbLeft);
 
-    filledRef.current.style.left = `${left}px`;
-    filledRef.current.style.width = `${width}px`;
+    if (orientation === "horizontal") {
+      const minThumbLeft = minThumbRect.left;
+      const maxThumbLeft = maxThumbRect.left;
+      const width = Math.abs(maxThumbLeft - minThumbLeft);
+      const left = Math.min(minThumbLeft, maxThumbLeft);
+
+      filledRef.current.style.left = `${left}px`;
+      filledRef.current.style.width = `${width}px`;
+    } else {
+      const minThumbTop = minThumbRect.top;
+      const maxThumbTop = maxThumbRect.top;
+      const height = Math.abs(maxThumbTop - minThumbTop);
+      const top = Math.min(minThumbTop, maxThumbTop);
+
+      filledRef.current.style.top = `${top}px`;
+      filledRef.current.style.height = `${height}px`;
+    }
   };
 
   useEffect(() => {
