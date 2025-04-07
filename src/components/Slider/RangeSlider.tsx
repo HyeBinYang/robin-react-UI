@@ -4,6 +4,7 @@ import colors from "../../constant/color";
 import { DEFAULT_COLOR } from "../../constant/common";
 import assert from "../../utils/assert";
 import classNames from "classnames";
+import useSlider from "./useSlider";
 
 type ValueLabelDisplay = "auto" | "on" | "off";
 
@@ -21,8 +22,6 @@ type Props = {
   onChange?: (value: [number, number]) => void;
 };
 
-const ANIMATION_DURATION_MS = 150;
-
 const RangeSlider = ({
   color = DEFAULT_COLOR,
   size = "medium",
@@ -36,12 +35,25 @@ const RangeSlider = ({
   orientation = "horizontal",
   onChange,
 }: Props) => {
-  const [value, setValue] = useState(defaultValue);
-  const [mounted, setMounted] = useState(false);
+  const {
+    marks,
+    dragging,
+    mounted,
+    containerRef,
+    filledTrackRef,
+    moveThumb,
+    showValueLabel,
+    hideValueLabel,
+  } = useSlider({
+    orientation,
+    min,
+    max,
+    step,
+    valueLabelDisplay,
+  });
 
-  const dragging = useRef(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const filledRef = useRef<HTMLDivElement>(null);
+  const [value, setValue] = useState(defaultValue);
+
   const minThumbRef = useRef<HTMLDivElement>(null);
   const maxThumbRef = useRef<HTMLDivElement>(null);
   const minInputRef = useRef<HTMLInputElement>(null);
@@ -49,52 +61,22 @@ const RangeSlider = ({
   const minValueLabelRef = useRef<HTMLSpanElement>(null);
   const maxValueLabelRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const handleMouseDown = () => {
-      dragging.current = true;
-    };
-
-    const handleMouseUp = () => {
-      dragging.current = false;
-    };
-
-    document.addEventListener("mousedown", handleMouseDown);
-    document.addEventListener("mouseup", handleMouseUp);
-
-    setMounted(true);
-
-    return () => {
-      document.removeEventListener("mousedown", handleMouseDown);
-      document.removeEventListener("mouseup", handleMouseUp);
-    };
-  }, []);
-
   const moveMinThumbByValue = (nextValue: number, callback?: (value: [number, number]) => void) => {
-    assert(containerRef.current !== null && filledRef.current !== null && minThumbRef.current !== null);
+    assert(containerRef.current !== null && minThumbRef.current !== null);
 
     if (nextValue > max) {
       nextValue = max;
-      setValue([max, value[1]]);
     } else if (nextValue < min) {
       nextValue = min;
-      setValue([min, value[1]]);
-    } else {
-      setValue([nextValue, value[1]]);
     }
 
     const containerRect = containerRef.current.getBoundingClientRect();
-    const markWidth =
-      orientation === "horizontal"
-        ? (containerRect.width / (max - min)) * step
-        : (containerRect.height / (max - min)) * step;
-    const offset = ((nextValue - min) * markWidth) / step;
+    const containerSize = orientation === "horizontal" ? containerRect.width : containerRect.height;
+    const widthPerMark = (containerSize / (max - min)) * step;
+    const offset = ((nextValue - min) * widthPerMark) / step;
 
-    if (orientation === "horizontal") {
-      minThumbRef.current.style.left = `${offset}px`;
-    } else {
-      minThumbRef.current.style.bottom = `${offset}px`;
-    }
-
+    setValue([nextValue, value[1]]);
+    moveThumb(minThumbRef.current, offset);
     callback?.([nextValue, value[1]]);
   };
 
@@ -118,12 +100,8 @@ const RangeSlider = ({
         : (containerRect.height / (max - min)) * step;
     const offset = ((nextValue - min) * markWidth) / step;
 
-    if (orientation === "horizontal") {
-      maxThumbRef.current.style.left = `${offset}px`;
-    } else {
-      maxThumbRef.current.style.bottom = `${offset}px`;
-    }
-
+    setValue([value[0], nextValue]);
+    moveThumb(maxThumbRef.current, offset);
     callback?.([value[0], nextValue]);
   };
 
@@ -156,7 +134,6 @@ const RangeSlider = ({
         maxThumbRef.current !== null &&
         minValueLabelRef.current !== null &&
         maxValueLabelRef.current !== null &&
-        filledRef.current !== null &&
         minInputRef.current !== null &&
         maxInputRef.current !== null
     );
@@ -165,8 +142,11 @@ const RangeSlider = ({
     const thumbElement = isMinThumbClose ? minThumbRef.current : maxThumbRef.current;
     const containerRect = containerRef.current.getBoundingClientRect();
     const containerSize = orientation === "horizontal" ? containerRect.width : containerRect.height;
-    const markWidth = (containerSize / (max - min)) * step;
-    const diff = orientation === "horizontal" ? clickedPos - containerRect.left : containerRect.bottom - clickedPos;
+    const widthPerMark = (containerSize / (max - min)) * step;
+    const diff =
+      orientation === "horizontal"
+        ? clickedPos - containerRect.left
+        : containerRect.bottom - clickedPos;
     let offset = 0;
     let nextValue: number;
 
@@ -178,21 +158,13 @@ const RangeSlider = ({
       offset = containerSize;
     } else {
       nextValue = diff
-        ? Math.round(diff / markWidth) * step + min
+        ? Math.round(diff / widthPerMark) * step + min
         : isMinThumbClose
         ? defaultValue[0]
         : defaultValue[1];
       if (nextValue > max) nextValue = max;
-      offset = ((nextValue - min) * markWidth) / step;
+      offset = ((nextValue - min) * widthPerMark) / step;
     }
-
-    if (orientation === "horizontal") {
-      thumbElement.style.left = `${offset}px`;
-    } else {
-      thumbElement.style.bottom = `${offset}px`;
-    }
-
-    setValue((prev) => (isMinThumbClose ? [nextValue, prev[1]] : [prev[0], nextValue]));
 
     if (valueLabelDisplay === "auto") {
       if (isMinThumbClose) {
@@ -208,6 +180,9 @@ const RangeSlider = ({
       }
     }
 
+    setValue((prev) => (isMinThumbClose ? [nextValue, prev[1]] : [prev[0], nextValue]));
+    moveThumb(thumbElement, offset);
+
     if (isMinThumbClose) {
       minInputRef.current.focus();
       if (nextValue !== value[0]) onChange?.([nextValue, value[1]]);
@@ -222,15 +197,14 @@ const RangeSlider = ({
 
     event.preventDefault();
 
-    assert(filledRef.current !== null);
+    assert(filledTrackRef.current !== null);
 
     const clickedPos = orientation === "horizontal" ? event.clientX : event.clientY;
-
     moveThumbByClickedPos(clickedPos);
   };
 
   const handleMouseMove = (event: MouseEvent<HTMLDivElement>) => {
-    if (!dragging.current || disabled) return;
+    if (!dragging || disabled) return;
 
     assert(minThumbRef.current !== null && maxThumbRef.current !== null);
 
@@ -238,63 +212,52 @@ const RangeSlider = ({
     moveThumbByClickedPos(clickedPos);
   };
 
-  const handleKeyDown = (value: number, isMin: boolean) => (event: KeyboardEvent<HTMLInputElement>) => {
-    if (disabled) return;
+  const handleKeyDown =
+    (value: number, isMin: boolean) => (event: KeyboardEvent<HTMLInputElement>) => {
+      if (disabled) return;
 
-    switch (event.key) {
-      case "ArrowUp":
-      case "ArrowRight": {
-        const nextValue = value + step;
-        isMin
-          ? moveMinThumbByValue(nextValue < max ? nextValue : max, onChange)
-          : moveMaxThumbByValue(nextValue < max ? nextValue : max, onChange);
-        break;
+      switch (event.key) {
+        case "ArrowUp":
+        case "ArrowRight": {
+          const nextValue = value + step;
+          isMin
+            ? moveMinThumbByValue(nextValue < max ? nextValue : max, onChange)
+            : moveMaxThumbByValue(nextValue < max ? nextValue : max, onChange);
+          break;
+        }
+        case "ArrowDown":
+        case "ArrowLeft": {
+          const nextValue = value - step;
+          isMin
+            ? moveMinThumbByValue(nextValue > min ? nextValue : min, onChange)
+            : moveMaxThumbByValue(nextValue > min ? nextValue : min, onChange);
+          break;
+        }
+        default:
+          break;
       }
-      case "ArrowDown":
-      case "ArrowLeft": {
-        const nextValue = value - step;
-        isMin
-          ? moveMinThumbByValue(nextValue > min ? nextValue : min, onChange)
-          : moveMaxThumbByValue(nextValue > min ? nextValue : min, onChange);
-        break;
-      }
-      default:
-        break;
-    }
-  };
+    };
 
   const handleThumbMouseEnter = (isMin: boolean) => () => {
-    const valueLabelElement = isMin ? minValueLabelRef.current : maxValueLabelRef.current;
+    const valueLabelRef = isMin ? minValueLabelRef.current : maxValueLabelRef.current;
 
-    assert(valueLabelElement !== null);
-
-    if (valueLabelDisplay === "auto") {
-      valueLabelElement.style.transform = orientation === "horizontal" ? "translate(0%, -100%) scale(1)" : "scale(1)";
-    }
+    assert(valueLabelRef !== null);
+    showValueLabel(valueLabelRef);
   };
 
   const handleThumbMouseLeave = (isMin: boolean) => () => {
-    const valueLabelElement = isMin ? minValueLabelRef.current : maxValueLabelRef.current;
+    const valueLabelRef = isMin ? minValueLabelRef.current : maxValueLabelRef.current;
 
-    assert(valueLabelElement !== null);
-
-    if (valueLabelDisplay === "auto") {
-      valueLabelElement.style.transform = orientation === "horizontal" ? "translate(0%, -100%) scale(0)" : "scale(0)";
-    }
+    assert(valueLabelRef !== null);
+    hideValueLabel(valueLabelRef);
   };
 
-  const marks = (() => {
-    const marks = [];
-
-    for (let value = min; value <= max; value += step) {
-      marks.push(value);
-    }
-
-    return marks;
-  })();
-
-  const calculateFilledWidth = () => {
-    assert(minThumbRef.current !== null && maxThumbRef.current !== null && filledRef.current !== null);
+  const fillTrack = () => {
+    assert(
+      minThumbRef.current !== null &&
+        maxThumbRef.current !== null &&
+        filledTrackRef.current !== null
+    );
 
     const minThumbRect = minThumbRef.current.getBoundingClientRect();
     const maxThumbRect = maxThumbRef.current.getBoundingClientRect();
@@ -305,21 +268,21 @@ const RangeSlider = ({
       const width = Math.abs(maxThumbLeft - minThumbLeft);
       const left = Math.min(minThumbLeft, maxThumbLeft);
 
-      filledRef.current.style.left = `${left}px`;
-      filledRef.current.style.width = `${width}px`;
+      filledTrackRef.current.style.left = `${left}px`;
+      filledTrackRef.current.style.width = `${width}px`;
     } else {
       const minThumbTop = minThumbRect.top;
       const maxThumbTop = maxThumbRect.top;
       const height = Math.abs(maxThumbTop - minThumbTop);
       const top = Math.min(minThumbTop, maxThumbTop);
 
-      filledRef.current.style.top = `${top}px`;
-      filledRef.current.style.height = `${height}px`;
+      filledTrackRef.current.style.top = `${top}px`;
+      filledTrackRef.current.style.height = `${height}px`;
     }
   };
 
   useEffect(() => {
-    calculateFilledWidth();
+    fillTrack();
   }, [value[0], value[1]]);
 
   return (
@@ -337,7 +300,7 @@ const RangeSlider = ({
       onMouseDown={handleContainerMouseDown}
       onMouseMove={handleMouseMove}
     >
-      <div ref={filledRef} className={styles["slider-filled"]}></div>
+      <div ref={filledTrackRef} className={styles["slider-filled"]}></div>
       <div className={styles["slider-track"]}>
         {showMarks && (
           <span className={styles["slider-marks"]}>
@@ -346,7 +309,9 @@ const RangeSlider = ({
                 assert(containerRef.current !== null);
 
                 const containerSize =
-                  orientation === "horizontal" ? containerRef.current.clientWidth : containerRef.current.clientHeight;
+                  orientation === "horizontal"
+                    ? containerRef.current.clientWidth
+                    : containerRef.current.clientHeight;
                 const offset = (containerSize / (max - min)) * step * (index + 1);
 
                 return (

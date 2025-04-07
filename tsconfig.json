@@ -19,7 +19,8 @@
       "@/types/*": ["src/types/*"],
       "@/components/*": ["src/components/*"],
       "@/layouts/*": ["src/layouts/*"],
-      "@/constants/*": ["src/constant/*"]
+      "@/constants/*": ["src/constant/*"],
+      "@/utils/*": ["src/utils/*"]
     },
     "plugins": [
       {

@@ -4,12 +4,13 @@ import colors from "../../constant/color";
 import { DEFAULT_COLOR } from "../../constant/common";
 import assert from "../../utils/assert";
 import classNames from "classnames";
-
-type ValueLabelDisplay = "auto" | "on" | "off";
+import useSlider from "./useSlider";
+import { ValueLabelDisplay } from "@/types/slider";
+import { DefaultColor, DefaultOrientation, DefaultSize } from "@/types/common";
 
 type Props = {
-  color?: keyof typeof colors;
-  size?: "medium" | "small";
+  color?: DefaultColor;
+  size?: Exclude<DefaultSize, "large">;
   min?: number;
   max?: number;
   step?: number;
@@ -17,11 +18,9 @@ type Props = {
   showMarks?: boolean;
   valueLabelDisplay?: ValueLabelDisplay;
   disabled?: boolean;
-  orientation?: "horizontal" | "vertical";
+  orientation?: DefaultOrientation;
   onChange?: (value: number) => void;
 };
-
-const ANIMATION_DURATION_MS = 150;
 
 const SingleSlider = ({
   color = DEFAULT_COLOR,
@@ -36,64 +35,56 @@ const SingleSlider = ({
   orientation = "horizontal",
   onChange,
 }: Props) => {
-  const [value, setValue] = useState(defaultValue);
-  const [mounted, setMounted] = useState(false);
+  const {
+    marks,
+    dragging,
+    mounted,
+    containerRef,
+    filledTrackRef,
+    moveThumb,
+    showValueLabel,
+    hideValueLabel,
+  } = useSlider({
+    orientation,
+    min,
+    max,
+    step,
+    valueLabelDisplay,
+  });
 
-  const dragging = useRef(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const filledRef = useRef<HTMLDivElement>(null);
+  const [value, setValue] = useState(defaultValue);
+
   const thumbRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const valueLabelRef = useRef<HTMLSpanElement>(null);
 
-  useEffect(() => {
-    const handleMouseDown = () => {
-      dragging.current = true;
-    };
+  const fillTrack = (offset: number) => {
+    assert(filledTrackRef.current, "filledTrackRef를 참조해주세요.");
 
-    const handleMouseUp = () => {
-      dragging.current = false;
-    };
-
-    document.addEventListener("mousedown", handleMouseDown);
-    document.addEventListener("mouseup", handleMouseUp);
-
-    setMounted(true);
-
-    return () => {
-      document.removeEventListener("mousedown", handleMouseDown);
-      document.removeEventListener("mouseup", handleMouseUp);
-    };
-  }, []);
+    if (orientation === "horizontal") {
+      filledTrackRef.current.style.width = `${offset}px`;
+    } else {
+      filledTrackRef.current.style.height = `${offset}px`;
+    }
+  };
 
   const moveThumbByValue = (nextValue: number, callback?: (value: number) => void) => {
-    assert(containerRef.current !== null && filledRef.current !== null && thumbRef.current !== null);
+    assert(containerRef.current !== null && thumbRef.current !== null);
 
     if (nextValue > max) {
       nextValue = max;
-      setValue(max);
-    } else if (value < min) {
+    } else if (nextValue < min) {
       nextValue = min;
-      setValue(min);
-    } else {
-      setValue(nextValue);
     }
 
     const containerRect = containerRef.current.getBoundingClientRect();
-    const markWidth =
-      orientation === "horizontal"
-        ? (containerRect.width / (max - min)) * step
-        : (containerRect.height / (max - min)) * step;
-    const offset = ((nextValue - min) * markWidth) / step;
+    const containerSize = orientation === "horizontal" ? containerRect.width : containerRect.height;
+    const widthPerMark = (containerSize / (max - min)) * step;
+    const offset = ((nextValue - min) * widthPerMark) / step;
 
-    if (orientation === "horizontal") {
-      thumbRef.current.style.left = `${offset}px`;
-      filledRef.current.style.width = `${offset}px`;
-    } else {
-      thumbRef.current.style.bottom = `${offset}px`;
-      filledRef.current.style.height = `${offset}px`;
-    }
-
+    setValue(nextValue);
+    moveThumb(thumbRef.current, offset);
+    fillTrack(offset);
     callback?.(nextValue);
   };
 
@@ -102,12 +93,15 @@ const SingleSlider = ({
   }, [defaultValue]);
 
   const moveThumbByClickedPos = (clickedPos: number) => {
-    assert(containerRef.current !== null && filledRef.current !== null && thumbRef.current !== null);
+    assert(containerRef.current !== null && thumbRef.current !== null);
 
     const containerRect = containerRef.current.getBoundingClientRect();
     const containerSize = orientation === "horizontal" ? containerRect.width : containerRect.height;
-    const markWidth = (containerSize / (max - min)) * step;
-    const diff = orientation === "horizontal" ? clickedPos - containerRect.left : containerRect.bottom - clickedPos;
+    const widthPerMark = (containerSize / (max - min)) * step;
+    const diff =
+      orientation === "horizontal"
+        ? clickedPos - containerRect.left
+        : containerRect.bottom - clickedPos;
     let offset = 0;
     let nextValue: number;
 
@@ -118,23 +112,16 @@ const SingleSlider = ({
       nextValue = max;
       offset = containerSize;
     } else {
-      nextValue = diff ? Math.round(diff / markWidth) * step + min : defaultValue;
+      nextValue = diff ? Math.round(diff / widthPerMark) * step + min : defaultValue;
 
       if (nextValue > max) nextValue = max;
 
-      offset = ((nextValue - min) * markWidth) / step;
+      offset = ((nextValue - min) * widthPerMark) / step;
     }
 
-    if (orientation === "horizontal") {
-      thumbRef.current.style.left = `${offset}px`;
-      filledRef.current.style.width = `${offset}px`;
-    } else {
-      thumbRef.current.style.bottom = `${offset}px`;
-      filledRef.current.style.height = `${offset}px`;
-    }
-
-    assert(typeof nextValue === "number", "변수 'v' 타입이 일치하지 않아요.");
-    setValue(() => nextValue);
+    setValue(nextValue);
+    moveThumb(thumbRef.current, offset);
+    fillTrack(offset);
 
     if (value !== nextValue) {
       onChange?.(nextValue);
@@ -146,29 +133,16 @@ const SingleSlider = ({
 
     event.preventDefault();
 
-    assert(filledRef.current !== null && thumbRef.current !== null && inputRef.current !== null);
-
-    if (orientation === "horizontal") {
-      filledRef.current.style.transition = `width ${ANIMATION_DURATION_MS}ms linear`;
-      thumbRef.current.style.transition = `left ${ANIMATION_DURATION_MS}ms linear`;
-    } else {
-      filledRef.current.style.transition = `height ${ANIMATION_DURATION_MS}ms linear`;
-      thumbRef.current.style.transition = `bottom ${ANIMATION_DURATION_MS}ms linear`;
-    }
+    assert(
+      filledTrackRef.current !== null && thumbRef.current !== null && inputRef.current !== null
+    );
 
     moveThumbByClickedPos(orientation === "horizontal" ? event.clientX : event.clientY);
     inputRef.current.focus();
-
-    setTimeout(() => {
-      assert(filledRef.current !== null && thumbRef.current !== null);
-
-      filledRef.current.style.transition = "";
-      thumbRef.current.style.transition = "";
-    }, ANIMATION_DURATION_MS);
   };
 
   const handleMouseMove = (event: MouseEvent<HTMLDivElement>) => {
-    if (!dragging.current || disabled) return;
+    if (!dragging || disabled) return;
     moveThumbByClickedPos(orientation === "horizontal" ? event.clientX : event.clientY);
   };
 
@@ -195,31 +169,13 @@ const SingleSlider = ({
 
   const handleThumbMouseEnter = () => {
     assert(valueLabelRef.current !== null);
-
-    if (valueLabelDisplay === "auto") {
-      valueLabelRef.current.style.transform =
-        orientation === "horizontal" ? "translate(0%, -100%) scale(1)" : "scale(1)";
-    }
+    showValueLabel(valueLabelRef.current);
   };
 
   const handleThumbMouseLeave = () => {
     assert(valueLabelRef.current !== null);
-
-    if (valueLabelDisplay === "auto") {
-      valueLabelRef.current.style.transform =
-        orientation === "horizontal" ? "translate(0%, -100%) scale(0)" : "scale(0)";
-    }
+    hideValueLabel(valueLabelRef.current);
   };
-
-  const marks = (() => {
-    const marks = [];
-
-    for (let value = min; value <= max; value += step) {
-      marks.push(value);
-    }
-
-    return marks;
-  })();
 
   return (
     <div
@@ -236,7 +192,7 @@ const SingleSlider = ({
       onMouseDown={handleContainerMouseDown}
       onMouseMove={handleMouseMove}
     >
-      <div ref={filledRef} className={styles["slider-filled"]}></div>
+      <div ref={filledTrackRef} className={styles["slider-filled"]}></div>
       <div className={styles["slider-track"]}>
         {showMarks && (
           <span className={styles["slider-marks"]}>
@@ -245,7 +201,9 @@ const SingleSlider = ({
                 assert(containerRef.current !== null);
 
                 const containerSize =
-                  orientation === "horizontal" ? containerRef.current.clientWidth : containerRef.current.clientHeight;
+                  orientation === "horizontal"
+                    ? containerRef.current.clientWidth
+                    : containerRef.current.clientHeight;
                 const offset = (containerSize / (max - min)) * step * (index + 1);
 
                 return (
