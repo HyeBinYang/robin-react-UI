@@ -92,3 +92,12 @@ export const Example: Story = {
     onChange: action("Value: "),
   },
 };
+
+export const RangeSlider: Story = {
+  args: {
+    defaultValue: [10, 50],
+    valueLabelDisplay: "auto",
+    // step: 10,
+    onChange: action("Value: "),
+  },
+};
