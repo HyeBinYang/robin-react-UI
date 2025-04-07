@@ -58,18 +58,8 @@ const SingleSlider = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const valueLabelRef = useRef<HTMLSpanElement>(null);
 
-  const fillTrack = (offset: number) => {
-    assert(filledTrackRef.current, "filledTrackRef를 참조해주세요.");
-
-    if (orientation === "horizontal") {
-      filledTrackRef.current.style.width = `${offset}px`;
-    } else {
-      filledTrackRef.current.style.height = `${offset}px`;
-    }
-  };
-
   const moveThumbByValue = (nextValue: number, callback?: (value: number) => void) => {
-    assert(containerRef.current !== null && thumbRef.current !== null);
+    assert(thumbRef.current !== null);
 
     if (nextValue > max) {
       nextValue = max;
@@ -77,20 +67,10 @@ const SingleSlider = ({
       nextValue = min;
     }
 
-    const containerRect = containerRef.current.getBoundingClientRect();
-    const containerSize = orientation === "horizontal" ? containerRect.width : containerRect.height;
-    const widthPerMark = (containerSize / (max - min)) * step;
-    const offset = ((nextValue - min) * widthPerMark) / step;
-
     setValue(nextValue);
-    moveThumb(thumbRef.current, offset);
-    fillTrack(offset);
+    moveThumb(thumbRef.current, nextValue);
     callback?.(nextValue);
   };
-
-  useEffect(() => {
-    moveThumbByValue(defaultValue);
-  }, [defaultValue]);
 
   const moveThumbByClickedPos = (clickedPos: number) => {
     assert(containerRef.current !== null && thumbRef.current !== null);
@@ -102,26 +82,19 @@ const SingleSlider = ({
       orientation === "horizontal"
         ? clickedPos - containerRect.left
         : containerRect.bottom - clickedPos;
-    let offset = 0;
     let nextValue: number;
 
     if (diff <= 0) {
       nextValue = min;
-      offset = 0;
     } else if (diff >= containerSize - 2) {
       nextValue = max;
-      offset = containerSize;
     } else {
       nextValue = diff ? Math.round(diff / widthPerMark) * step + min : defaultValue;
-
       if (nextValue > max) nextValue = max;
-
-      offset = ((nextValue - min) * widthPerMark) / step;
     }
 
     setValue(nextValue);
-    moveThumb(thumbRef.current, offset);
-    fillTrack(offset);
+    moveThumb(thumbRef.current, nextValue);
 
     if (value !== nextValue) {
       onChange?.(nextValue);
@@ -176,6 +149,30 @@ const SingleSlider = ({
     assert(valueLabelRef.current !== null);
     hideValueLabel(valueLabelRef.current);
   };
+
+  const fillTrack = () => {
+    assert(containerRef.current, "containerRef를 참조해주세요.");
+    assert(filledTrackRef.current, "filledTrackRef를 참조해주세요.");
+
+    const containerRect = containerRef.current.getBoundingClientRect();
+    const containerSize = orientation === "horizontal" ? containerRect.width : containerRect.height;
+    const widthPerMark = (containerSize / (max - min)) * step;
+    const offset = ((value - min) * widthPerMark) / step;
+
+    if (orientation === "horizontal") {
+      filledTrackRef.current.style.width = `${offset}px`;
+    } else {
+      filledTrackRef.current.style.height = `${offset}px`;
+    }
+  };
+
+  useEffect(() => {
+    fillTrack();
+  }, [value]);
+
+  useEffect(() => {
+    moveThumbByValue(defaultValue);
+  }, [defaultValue]);
 
   return (
     <div

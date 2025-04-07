@@ -1,5 +1,6 @@
 import { DefaultOrientation } from "@/types/common";
 import { ValueLabelDisplay } from "@/types/slider";
+import assert from "@/utils/assert";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 type UseSliderParameters = {
@@ -47,7 +48,14 @@ const useSlider = ({ orientation, min, max, step, valueLabelDisplay }: UseSlider
     };
   }, []);
 
-  const moveThumb = (thumbRef: HTMLElement, offset: number) => {
+  const moveThumb = (thumbRef: HTMLElement, value: number) => {
+    assert(containerRef.current !== null && filledTrackRef.current !== null);
+
+    const containerRect = containerRef.current.getBoundingClientRect();
+    const containerSize = orientation === "horizontal" ? containerRect.width : containerRect.height;
+    const widthPerMark = (containerSize / (max - min)) * step;
+    const offset = ((value - min) * widthPerMark) / step;
+
     if (orientation === "horizontal") {
       thumbRef.style.left = `${offset}px`;
     } else {
