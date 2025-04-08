@@ -62,7 +62,7 @@ const RangeSlider = ({
   const maxValueLabelRef = useRef<HTMLDivElement>(null);
 
   const moveMinThumbByValue = (nextValue: number, callback?: (value: [number, number]) => void) => {
-    assert(containerRef.current !== null && minThumbRef.current !== null);
+    assert(minThumbRef.current);
 
     if (nextValue > max) {
       nextValue = max;
@@ -70,38 +70,22 @@ const RangeSlider = ({
       nextValue = min;
     }
 
-    const containerRect = containerRef.current.getBoundingClientRect();
-    const containerSize = orientation === "horizontal" ? containerRect.width : containerRect.height;
-    const widthPerMark = (containerSize / (max - min)) * step;
-    const offset = ((nextValue - min) * widthPerMark) / step;
-
     setValue([nextValue, value[1]]);
-    moveThumb(minThumbRef.current, offset);
+    moveThumb(minThumbRef.current, nextValue);
     callback?.([nextValue, value[1]]);
   };
 
   const moveMaxThumbByValue = (nextValue: number, callback?: (value: [number, number]) => void) => {
-    assert(containerRef.current !== null && maxThumbRef.current !== null);
+    assert(maxThumbRef.current);
 
     if (nextValue > max) {
       nextValue = max;
-      setValue([value[0], max]);
     } else if (nextValue < min) {
       nextValue = min;
-      setValue([value[0], min]);
-    } else {
-      setValue([value[0], nextValue]);
     }
 
-    const containerRect = containerRef.current.getBoundingClientRect();
-    const markWidth =
-      orientation === "horizontal"
-        ? (containerRect.width / (max - min)) * step
-        : (containerRect.height / (max - min)) * step;
-    const offset = ((nextValue - min) * markWidth) / step;
-
     setValue([value[0], nextValue]);
-    moveThumb(maxThumbRef.current, offset);
+    moveThumb(maxThumbRef.current, nextValue);
     callback?.([value[0], nextValue]);
   };
 
@@ -111,7 +95,7 @@ const RangeSlider = ({
   }, [defaultValue]);
 
   const getIsMinThumbClose = (clickedPos: number) => {
-    assert(minThumbRef.current !== null && maxThumbRef.current !== null);
+    assert(minThumbRef.current && maxThumbRef.current);
 
     const minThumbRect = minThumbRef.current.getBoundingClientRect();
     const maxThumbRect = maxThumbRef.current.getBoundingClientRect();
@@ -129,13 +113,13 @@ const RangeSlider = ({
 
   const moveThumbByClickedPos = (clickedPos: number) => {
     assert(
-      containerRef.current !== null &&
-        minThumbRef.current !== null &&
-        maxThumbRef.current !== null &&
-        minValueLabelRef.current !== null &&
-        maxValueLabelRef.current !== null &&
-        minInputRef.current !== null &&
-        maxInputRef.current !== null
+      containerRef.current &&
+        minThumbRef.current &&
+        maxThumbRef.current &&
+        minValueLabelRef.current &&
+        maxValueLabelRef.current &&
+        minInputRef.current &&
+        maxInputRef.current
     );
 
     const isMinThumbClose = getIsMinThumbClose(clickedPos);
@@ -180,8 +164,8 @@ const RangeSlider = ({
       }
     }
 
-    setValue((prev) => (isMinThumbClose ? [nextValue, prev[1]] : [prev[0], nextValue]));
-    moveThumb(thumbElement, offset);
+    setValue(isMinThumbClose ? [nextValue, value[1]] : [value[0], nextValue]);
+    moveThumb(thumbElement, nextValue);
 
     if (isMinThumbClose) {
       minInputRef.current.focus();
@@ -254,27 +238,28 @@ const RangeSlider = ({
 
   const fillTrack = () => {
     assert(
-      minThumbRef.current !== null &&
-        maxThumbRef.current !== null &&
-        filledTrackRef.current !== null
+      containerRef.current && minThumbRef.current && maxThumbRef.current && filledTrackRef.current
     );
 
+    const containerRect = containerRef.current.getBoundingClientRect();
     const minThumbRect = minThumbRef.current.getBoundingClientRect();
     const maxThumbRect = maxThumbRef.current.getBoundingClientRect();
 
     if (orientation === "horizontal") {
+      const containerLeft = containerRect.left;
       const minThumbLeft = minThumbRect.left;
       const maxThumbLeft = maxThumbRect.left;
       const width = Math.abs(maxThumbLeft - minThumbLeft);
-      const left = Math.min(minThumbLeft, maxThumbLeft);
+      const left = Math.min(minThumbLeft, maxThumbLeft) - containerLeft;
 
       filledTrackRef.current.style.left = `${left}px`;
       filledTrackRef.current.style.width = `${width}px`;
     } else {
+      const containerTop = containerRect.top;
       const minThumbTop = minThumbRect.top;
       const maxThumbTop = maxThumbRect.top;
       const height = Math.abs(maxThumbTop - minThumbTop);
-      const top = Math.min(minThumbTop, maxThumbTop);
+      const top = Math.min(minThumbTop, maxThumbTop) - containerTop;
 
       filledTrackRef.current.style.top = `${top}px`;
       filledTrackRef.current.style.height = `${height}px`;
