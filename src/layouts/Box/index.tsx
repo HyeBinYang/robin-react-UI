@@ -1,4 +1,4 @@
-import createComponent from "src/core/createComponent";
+import createComponent from "@/utils/createComponent";
 
 const Box = createComponent("div");
 
