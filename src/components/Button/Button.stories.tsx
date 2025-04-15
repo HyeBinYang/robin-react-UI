@@ -58,13 +58,28 @@ export const Example: Story = {
 export const Contained = () => {
   return (
     <>
-      <Button variant="contained" color="Blue400" size="large" onClick={action("Contained Large Button Clicked")}>
+      <Button
+        variant="contained"
+        color="Blue400"
+        size="large"
+        onClick={action("Contained Large Button Clicked")}
+      >
         Large
       </Button>
-      <Button variant="contained" color="Blue400" size="medium" onClick={action("Contained Medium Button Clicked")}>
+      <Button
+        variant="contained"
+        color="Blue400"
+        size="medium"
+        onClick={action("Contained Medium Button Clicked")}
+      >
         Medium
       </Button>
-      <Button variant="contained" color="Blue400" size="small" onClick={action("Contained Small Button Clicked")}>
+      <Button
+        variant="contained"
+        color="Blue400"
+        size="small"
+        onClick={action("Contained Small Button Clicked")}
+      >
         Small
       </Button>
     </>
@@ -74,13 +89,28 @@ export const Contained = () => {
 export const Outlined = () => {
   return (
     <>
-      <Button variant="outlined" color="Blue400" size="large" onClick={action("Outlined Large Button Clicked")}>
+      <Button
+        variant="outlined"
+        color="Blue400"
+        size="large"
+        onClick={action("Outlined Large Button Clicked")}
+      >
         Large
       </Button>
-      <Button variant="outlined" color="Blue400" size="medium" onClick={action("Outlined Medium Button Clicked")}>
+      <Button
+        variant="outlined"
+        color="Blue400"
+        size="medium"
+        onClick={action("Outlined Medium Button Clicked")}
+      >
         Medium
       </Button>
-      <Button variant="outlined" color="Blue400" size="small" onClick={action("Outlined Small Button Clicked")}>
+      <Button
+        variant="outlined"
+        color="Blue400"
+        size="small"
+        onClick={action("Outlined Small Button Clicked")}
+      >
         Small
       </Button>
     </>
@@ -90,13 +120,28 @@ export const Outlined = () => {
 export const Ghost = () => {
   return (
     <>
-      <Button variant="ghost" color="Blue400" size="large" onClick={action("Ghost Large Button Clicked")}>
+      <Button
+        variant="ghost"
+        color="Blue400"
+        size="large"
+        onClick={action("Ghost Large Button Clicked")}
+      >
         Large
       </Button>
-      <Button variant="ghost" color="Blue400" size="medium" onClick={action("Ghost Medium Button Clicked")}>
+      <Button
+        variant="ghost"
+        color="Blue400"
+        size="medium"
+        onClick={action("Ghost Medium Button Clicked")}
+      >
         Medium
       </Button>
-      <Button variant="ghost" color="Blue400" size="small" onClick={action("Ghost Small Button Clicked")}>
+      <Button
+        variant="ghost"
+        color="Blue400"
+        size="small"
+        onClick={action("Ghost Small Button Clicked")}
+      >
         Small
       </Button>
     </>

@@ -11,4 +11,5 @@ export { default as Slider } from "./components/Slider";
 export { default as Switch } from "./components/Switch";
 export { default as TextField } from "./components/TextField";
 export { default as Typography } from "./components/Typography";
+export { default as Box } from "./layouts/Box";
 export { default as Flex } from "./layouts/Flex";
