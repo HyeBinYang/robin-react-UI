@@ -1,11 +1,49 @@
-# Material UI를 보면서 내가 만들어보는 React UI Component
+<p align="center">
+  <a href="https://www.gatsbyjs.com/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts">
+    <img alt="Gatsby" src="https://www.gatsbyjs.com/Gatsby-Monogram.svg" width="60" />
+  </a>
+</p>
+<h1 align="center">
+  Gatsby Minimal TypeScript Starter
+</h1>
 
-## 프로젝트의 특징
+## 🚀 Quick start
 
-### 1. Material UI를 참조해서 제작 중
+1.  **Create a Gatsby site.**
 
-실무에서 UI component를 만들때 Material UI를 자주 참고했었습니다. (어떤 props가 필요한지, props 네이밍 등등...) 이번 기회에 Material UI Docs를 보면서 나라면 어떻게 만들까에 대한 고민을 해보고 싶어서 하나하나씩 천천히 만들어보고 있습니다. (만드는 순서는 제 마음입니다... ㅎㅎ)
+    Use the Gatsby CLI to create a new site, specifying the minimal TypeScript starter.
 
-### 2. CSS module를 사용
+    ```shell
+    # create a new Gatsby site using the minimal TypeScript starter
+    npm init gatsby -- -ts
+    ```
 
-실무에서 React UI Component를 만들때 Emotion, Styled-components와 같은 React Component 친화적인 구조를 가진 Style 라이브러리를 사용하면 React 구조에 맞게 짤 수 있다라는 개인적인 이유로 CSS in JS 라이브러리를 대부분 사용했습니다. 하지만 CSS module도 잘 사용하면 유지보수가 용이하게 짤 수 있는지 알아보고 싶어서 CSS module를 선택했습니다.
+2.  **Start developing.**
+
+    Navigate into your new site’s directory and start it up.
+
+    ```shell
+    cd my-gatsby-site/
+    npm run develop
+    ```
+
+3.  **Open the code and start customizing!**
+
+    Your site is now running at http://localhost:8000!
+
+    Edit `src/pages/index.tsx` to see your site update in real-time!
+
+4.  **Learn more**
+
+    - [Documentation](https://www.gatsbyjs.com/docs/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
+    - [Tutorials](https://www.gatsbyjs.com/docs/tutorial/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
+    - [Guides](https://www.gatsbyjs.com/docs/how-to/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
+    - [API Reference](https://www.gatsbyjs.com/docs/api-reference/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
+    - [Plugin Library](https://www.gatsbyjs.com/plugins?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
+    - [Cheat Sheet](https://www.gatsbyjs.com/docs/cheat-sheet/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
+
+## 🚀 Quick start (Netlify)
+
+Deploy this starter with one click on [Netlify](https://app.netlify.com/signup):
+
+[<img src="https://www.netlify.com/img/deploy/button.svg" alt="Deploy to Netlify" />](https://app.netlify.com/start/deploy?repository=https://github.com/gatsbyjs/gatsby-starter-minimal-ts)
