@@ -91,7 +91,7 @@ const PageListCard = ({ title, thumbnail, preview, src }: PageData) => {
           alt={title}
           css={css`
             width: 100%;
-            height: 100%;
+            height: 210px;
             object-fit: cover;
           `}
         />
