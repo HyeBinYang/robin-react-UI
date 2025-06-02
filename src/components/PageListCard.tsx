@@ -10,8 +10,8 @@ const PageListCard = ({ title, thumbnail, preview, src }: PageData) => {
   return (
     <li
       css={css`
-        width: 320px;
-        height: 250px;
+        width: 100%;
+        height: 320px;
         overflow: hidden;
         border-radius: 4px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -79,7 +79,7 @@ const PageListCard = ({ title, thumbnail, preview, src }: PageData) => {
             <strong
               css={css`
                 margin-left: 8px;
-                font-size: 12px;
+                font-size: 0.8em;
               `}
             >
               {src}
@@ -91,7 +91,7 @@ const PageListCard = ({ title, thumbnail, preview, src }: PageData) => {
           alt={title}
           css={css`
             width: 100%;
-            height: 210px;
+            height: 280px;
             object-fit: cover;
           `}
         />

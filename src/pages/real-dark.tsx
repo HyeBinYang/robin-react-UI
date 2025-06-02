@@ -1,37 +1,23 @@
 import { useState } from "react";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
-import { FlashLightOverlay, Layout } from "../components";
+import { DarkModeSwitch, FlashLightOverlay, Layout } from "../components";
 
 const RealDarkPage = () => {
   const [isDark, setIsDark] = useState(false);
 
-  const toggle = () => {
-    setIsDark(!isDark);
-  };
-
   return (
     <Layout>
-      <button
-        aria-label="Toggle dark mode"
+      <div
         css={css`
           position: fixed;
-          top: 0;
-          right: 0;
+          bottom: 20px;
+          right: 20px;
           z-index: 10000;
-          font-size: 1.5rem;
-          background: transparent;
-          border: none;
-          cursor: pointer;
-          transition: transform 0.2s;
-          &:hover {
-            transform: scale(1.2);
-          }
         `}
-        onClick={toggle}
       >
-        {isDark ? "🌞" : "🌙"}
-      </button>
+        <DarkModeSwitch isDark={isDark} onToggle={() => setIsDark(!isDark)} />
+      </div>
       <main
         css={css`
           max-width: 600px;
@@ -72,7 +58,7 @@ const RealDarkPage = () => {
           Praesent pellentesque orci et nunc egestas, vel molestie est sodales. Sed lobortis dui
           quis pulvinar cursus. Mauris vitae finibus lacus.
         </Paragraph>
-        {isDark && <FlashLightOverlay />}
+        <FlashLightOverlay active={isDark} />
       </main>
     </Layout>
   );

@@ -1,7 +1,11 @@
 import { css } from "@emotion/react";
 import { useEffect, useState } from "react";
 
-const FlashLightOverlay = () => {
+type Props = {
+  active?: boolean;
+};
+
+const FlashLightOverlay = ({ active = false }: Props) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
@@ -21,14 +25,14 @@ const FlashLightOverlay = () => {
         position: fixed;
         inset: 0;
         z-index: 9999;
-        backdrop-filter: brightness(0.03);
+        backdrop-filter: ${active ? "brightness(0.03)" : "none"};
         mask-image: radial-gradient(
           circle 120px at ${position.x}px ${position.y}px,
           rgba(0, 0, 0, 0) 0%,
           rgba(0, 0, 0, 1) 100%
         );
         mask-composite: exclude;
-        transition: mask-image 0.05s linear;
+        transition: mask-image, backdrop-filter 0.15s linear;
       `}
     />
   );
