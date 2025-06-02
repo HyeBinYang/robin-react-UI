@@ -1,29 +1,9 @@
 import React from "react";
 import { css } from "@emotion/react";
-import { graphql, useStaticQuery } from "gatsby";
 import { Layout, PageListCard } from "../components";
-import { PageData } from "../types/page";
-
-type HomePageQueryData = {
-  allHomepagesJson: { nodes: PageData[] };
-};
+import { StaticImage } from "gatsby-plugin-image";
 
 const HomePage = () => {
-  const {
-    allHomepagesJson: { nodes: pages },
-  } = useStaticQuery<HomePageQueryData>(graphql`
-    query {
-      allHomepagesJson {
-        nodes {
-          title
-          thumbnail
-          preview
-          src
-        }
-      }
-    }
-  `);
-
   return (
     <Layout>
       <main
@@ -56,9 +36,34 @@ const HomePage = () => {
               gap: 32px;
             `}
           >
-            {pages.map((page) => (
-              <PageListCard key={page.title} {...page} />
-            ))}
+            <PageListCard
+              title="Real Dark Mode"
+              src="real-dark"
+              Thumbnail={
+                <StaticImage
+                  src={`../../static/images/thumbnail/real_dark_thumbnail.png`}
+                  alt="Real Dark Mode"
+                  objectFit="cover"
+                  css={css`
+                    width: 100%;
+                    height: 280px;
+                  `}
+                  quality={100}
+                />
+              }
+              Preview={
+                <img
+                  src={`/gifs/real_dark_preview.gif`}
+                  alt="Real Dark Mode"
+                  css={css`
+                    width: 100%;
+                    height: 280px;
+                    object-fit: contain;
+                    background-color: #000;
+                  `}
+                />
+              }
+            />
           </ul>
         </div>
       </main>

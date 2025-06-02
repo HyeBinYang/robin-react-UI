@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import { css } from "@emotion/react";
-import { PageData } from "../types/page";
 import { Link } from "gatsby";
 import styled from "@emotion/styled";
 
-const PageListCard = ({ title, thumbnail, preview, src }: PageData) => {
+type Props = {
+  title: string;
+  src: string;
+  Thumbnail: ReactNode;
+  Preview: ReactNode;
+};
+
+const PageListCard = ({ src, Thumbnail, Preview }: Props) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -28,7 +34,7 @@ const PageListCard = ({ title, thumbnail, preview, src }: PageData) => {
         to={src}
         css={css`
           display: block;
-          background-color: #141414;
+          background-color: #262626;
         `}
       >
         <div
@@ -86,15 +92,7 @@ const PageListCard = ({ title, thumbnail, preview, src }: PageData) => {
             </strong>
           </div>
         </div>
-        <img
-          src={isHovered ? preview : thumbnail}
-          alt={title}
-          css={css`
-            width: 100%;
-            height: 280px;
-            object-fit: cover;
-          `}
-        />
+        {isHovered ? Preview : Thumbnail}
       </Link>
     </li>
   );
@@ -103,19 +101,19 @@ const PageListCard = ({ title, thumbnail, preview, src }: PageData) => {
 export default PageListCard;
 
 const Circle = styled.span`
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
 
-  &:first-child {
-    background-color: red;
+  &:first-of-type {
+    background-color: #ff5f56;
   }
 
-  &:nth-child(2) {
-    background-color: rgb(204, 167, 4);
+  &:nth-of-type(2) {
+    background-color: #ffbd2e;
   }
 
-  &:last-child {
-    background-color: green;
+  &:last-of-type {
+    background-color: #27c93f;
   }
 `;
