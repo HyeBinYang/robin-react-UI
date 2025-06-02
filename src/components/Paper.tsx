@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import React, { PropsWithChildren } from "react";
 
-const FormPaper = ({ children }: PropsWithChildren) => {
+const FormPaper = () => {
   return (
     <div
       css={css`
@@ -11,10 +11,10 @@ const FormPaper = ({ children }: PropsWithChildren) => {
         padding: 16px 32px;
         background: white;
         box-shadow: 0 0 16px rgba(0, 0, 0, 0.15);
+        outline: none;
       `}
-    >
-      {children}
-    </div>
+      contentEditable
+    />
   );
 };
 
