@@ -38,7 +38,7 @@ const HomePage = () => {
           >
             <PageListCard
               title="Real Dark Mode"
-              src="real-dark"
+              src="/real-dark"
               Thumbnail={
                 <StaticImage
                   src={`../../static/images/thumbnail/real_dark_thumbnail.png`}
