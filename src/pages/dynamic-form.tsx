@@ -1,10 +1,11 @@
-import React, { useRef, useState } from "react";
+import React, { KeyboardEvent, useRef, useState } from "react";
 import { Layout } from "../components";
 import { css } from "@emotion/react";
 import { AnimatePresence, motion } from "framer-motion";
 
 const DynamicFormPage = () => {
   const draggedIndex = useRef<number | null>(null);
+  const focusedIndex = useRef<number | null>(null);
   const [fields, setFields] = useState([
     {
       id: "email",
@@ -43,13 +44,33 @@ const DynamicFormPage = () => {
     draggedIndex.current = null;
   };
 
-  const handleDrop = (index: number) => () => {
+  const swapField = (from: number, to: number) => {
     setFields((prev) => {
       const newItems = [...prev];
-      const [moved] = newItems.splice(draggedIndex.current as number, 1);
-      newItems.splice(index, 0, moved);
+      [newItems[from], newItems[to]] = [newItems[to], newItems[from]];
       return newItems;
     });
+  };
+
+  const handleDrop = (index: number) => () => {
+    swapField(draggedIndex.current as number, index);
+  };
+
+  const handleKeydown = (e: KeyboardEvent<HTMLDivElement>) => {
+    switch (e.key) {
+      case "ArrowDown":
+        if (focusedIndex.current !== null && focusedIndex.current < fields.length - 1) {
+          swapField(focusedIndex.current, focusedIndex.current + 1);
+          focusedIndex.current++;
+        }
+        break;
+      case "ArrowUp":
+        if (focusedIndex.current !== null && focusedIndex.current > 0) {
+          swapField(focusedIndex.current, focusedIndex.current - 1);
+          focusedIndex.current--;
+        }
+        break;
+    }
   };
 
   return (
@@ -68,11 +89,21 @@ const DynamicFormPage = () => {
             {fields.map((field, index) => (
               <motion.div
                 key={field.id}
+                tabIndex={0}
                 css={css`
                   padding: 20px;
-                  display: flex;
+                  display: inline-flex;
                   flex-direction: column;
                   gap: 4px;
+                  outline: none;
+
+                  &:focus {
+                    border: 1px solid black;
+                  }
+
+                  & > label {
+                    align-self: flex-start;
+                  }
                 `}
                 draggable
                 layout
@@ -81,6 +112,8 @@ const DynamicFormPage = () => {
                 onDragEnd={handleDragEnd}
                 onDrop={handleDrop(index)}
                 onDragOver={(e) => e.preventDefault()}
+                onFocus={() => (focusedIndex.current = index)}
+                onKeyDown={handleKeydown}
               >
                 {field.Field}
               </motion.div>
