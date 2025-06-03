@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Paper, Layout } from "../components";
 import { css } from "@emotion/react";
 
-const StackedFormPage = () => {
+const StackedPaperPage = () => {
+  const interval = useRef<NodeJS.Timeout | null>(null);
   const [step, setStep] = useState(1);
   const paperCount = 100;
-  let interval: NodeJS.Timeout | null = null;
 
   return (
     <Layout>
@@ -29,8 +29,8 @@ const StackedFormPage = () => {
                 css={css`
                   position: absolute;
                   transform: ${step > index + 1
-                      ? `scale(${1 - (step - (index + 1)) * 0.045}) translateY(${
-                          30 * (step - (index + 1))
+                      ? `scale(${1 - (step - (index + 1)) * 0.05}) translateY(${
+                          28 * (step - (index + 1))
                         }px)`
                       : ""}
                     translateX(${step >= index + 1 ? 0 : "100%"});
@@ -54,24 +54,30 @@ const StackedFormPage = () => {
             `}
           >
             <button type="button" onClick={() => setStep(step - 1)}>
-              Back
+              Clear
+            </button>
+            <button type="button" onClick={() => setStep(step - 1)}>
+              Pop
             </button>
             <button
               type="button"
               onClick={() => {
-                if (interval) clearInterval(interval);
+                if (interval.current) {
+                  clearInterval(interval.current);
+                }
+
                 let count = 0;
-                interval = setInterval(() => {
+                interval.current = setInterval(() => {
                   setStep((prev) => {
-                    if (interval && (++count === 10 || prev === paperCount)) {
-                      clearInterval(interval);
+                    if (interval.current && (++count === 10 || prev === paperCount)) {
+                      clearInterval(interval.current);
                     }
                     return prev + 1;
                   });
-                }, 500);
+                }, 80);
               }}
             >
-              Next
+              Push
             </button>
           </div>
         </div>
@@ -80,4 +86,4 @@ const StackedFormPage = () => {
   );
 };
 
-export default StackedFormPage;
+export default StackedPaperPage;
