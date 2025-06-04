@@ -38,6 +38,7 @@ const DynamicFormPage = () => {
 
   const handleDragStart = (index: number) => {
     draggedIndex.current = index;
+    focusedIndex.current = index;
   };
 
   const handleDragEnd = () => {
@@ -54,6 +55,7 @@ const DynamicFormPage = () => {
 
   const handleDrop = (index: number) => () => {
     swapField(draggedIndex.current as number, index);
+    focusedIndex.current = index;
   };
 
   const handleKeydown = (e: KeyboardEvent<HTMLDivElement>) => {
@@ -113,6 +115,10 @@ const DynamicFormPage = () => {
                 onDrop={handleDrop(index)}
                 onDragOver={(e) => e.preventDefault()}
                 onFocus={() => (focusedIndex.current = index)}
+                onBlur={() => {
+                  console.log("blur", focusedIndex.current);
+                  focusedIndex.current = null;
+                }}
                 onKeyDown={handleKeydown}
               >
                 {field.Field}
