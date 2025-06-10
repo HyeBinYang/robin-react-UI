@@ -53,6 +53,7 @@ const DynamicForm = () => {
       css={css`
         max-width: 640px;
         margin: 32px auto;
+        padding-bottom: 96px;
         display: flex;
         flex-direction: column;
         gap: 32px;
@@ -111,8 +112,10 @@ const DynamicForm = () => {
         css={css`
           position: fixed;
           bottom: 0;
+          padding: 16px 0;
           width: 640px;
           margin: 0 auto;
+          background-color: #fff;
         `}
       >
         <Button
