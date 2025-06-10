@@ -10,18 +10,21 @@ type Props = {
 const AddFieldModal = ({ onClose }: Props) => {
   const { addFormField } = useDynamicForm();
   const labelRef = useRef<HTMLInputElement>(null);
+  const nameRef = useRef<HTMLInputElement>(null);
   const typeRef = useRef<HTMLSelectElement>(null);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!labelRef.current || !typeRef.current) return;
+    if (!labelRef.current || !nameRef.current || !typeRef.current) return;
 
     addFormField({
       id: uuidv6(),
       label: labelRef.current.value,
       type: typeRef.current.value,
+      name: nameRef.current.value,
     });
+
     onClose?.();
   };
 
@@ -76,9 +79,21 @@ const AddFieldModal = ({ onClose }: Props) => {
               gap: 4px;
             `}
           >
+            <label htmlFor="name">Name</label>
+            <input ref={nameRef} />
+          </div>
+          <div
+            css={css`
+              display: flex;
+              flex-direction: column;
+              gap: 4px;
+            `}
+          >
             <label htmlFor="type">Type</label>
-            <select ref={typeRef} defaultValue="input">
-              <option value="input" label="input" />
+            <select ref={typeRef} defaultValue="text">
+              <option value="text" label="text" />
+              <option value="email" label="email" />
+              <option value="password" label="password" />
               <option value="textarea" label="textarea" />
               <option value="select" label="select" />
               <option value="multiSelect" label="multi-select" />

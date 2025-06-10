@@ -3,5 +3,7 @@ declare module "types/dynamic-form" {
     label: string;
     type: string;
     id: string;
+    name: string;
+    value?: string;
   };
 }

@@ -129,6 +129,16 @@ export const GlobalStyles = () => (
       input {
         outline: none;
       }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      button {
+        cursor: pointer;
+      }
     `}
   />
 );
