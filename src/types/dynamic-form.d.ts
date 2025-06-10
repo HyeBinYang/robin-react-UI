@@ -1,9 +1,10 @@
 declare module "types/dynamic-form" {
+  type FormFieldType = "text" | "email" | "password" | "onlyNumber";
+
   type FormField = {
-    label: string;
-    type: string;
     id: string;
+    label: string;
+    type: FormFieldType;
     name: string;
-    value?: string;
   };
 }

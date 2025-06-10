@@ -1,5 +1,6 @@
 import { css } from "@emotion/react";
 import React, { forwardRef, InputHTMLAttributes } from "react";
+import Label from "./Label";
 
 type Props = {
   label?: string;
@@ -14,17 +15,7 @@ const TextField = forwardRef<HTMLInputElement, Props>(({ label, ...inputAttrs },
         gap: 4px;
       `}
     >
-      {label && (
-        <label
-          htmlFor={inputAttrs.id}
-          css={css`
-            width: fit-content;
-            color: #757575;
-          `}
-        >
-          {label}
-        </label>
-      )}
+      {label && <Label id={inputAttrs.id}>{label}</Label>}
       <input
         ref={ref}
         {...inputAttrs}

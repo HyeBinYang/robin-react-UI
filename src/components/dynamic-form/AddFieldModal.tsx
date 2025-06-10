@@ -2,6 +2,8 @@ import { css } from "@emotion/react";
 import React, { FormEvent, useRef, useState } from "react";
 import { useDynamicForm } from "../../hooks/dynamic-form";
 import { v6 as uuidv6 } from "uuid";
+import { Select, TextField } from "../common";
+import { FormFieldType } from "types/dynamic-form";
 
 type Props = {
   onClose?: () => void;
@@ -11,17 +13,17 @@ const AddFieldModal = ({ onClose }: Props) => {
   const { addFormField } = useDynamicForm();
   const labelRef = useRef<HTMLInputElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
-  const typeRef = useRef<HTMLSelectElement>(null);
+  const [type, setType] = useState<FormFieldType>("text");
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!labelRef.current || !nameRef.current || !typeRef.current) return;
+    if (!labelRef.current || !nameRef.current) return;
 
     addFormField({
       id: uuidv6(),
       label: labelRef.current.value,
-      type: typeRef.current.value,
+      type,
       name: nameRef.current.value,
     });
 
@@ -62,44 +64,19 @@ const AddFieldModal = ({ onClose }: Props) => {
           `}
           onSubmit={handleSubmit}
         >
-          <div
-            css={css`
-              display: flex;
-              flex-direction: column;
-              gap: 4px;
-            `}
-          >
-            <label htmlFor="title">Label</label>
-            <input ref={labelRef} />
-          </div>
-          <div
-            css={css`
-              display: flex;
-              flex-direction: column;
-              gap: 4px;
-            `}
-          >
-            <label htmlFor="name">Name</label>
-            <input ref={nameRef} />
-          </div>
-          <div
-            css={css`
-              display: flex;
-              flex-direction: column;
-              gap: 4px;
-            `}
-          >
-            <label htmlFor="type">Type</label>
-            <select ref={typeRef} defaultValue="text">
-              <option value="text" label="text" />
-              <option value="email" label="email" />
-              <option value="password" label="password" />
-              <option value="textarea" label="textarea" />
-              <option value="select" label="select" />
-              <option value="multiSelect" label="multi-select" />
-              <option value="radio" label="radio" />
-            </select>
-          </div>
+          <TextField label="Label" ref={labelRef} placeholder="Type Label..." />
+          <TextField label="Name" ref={nameRef} placeholder="Type Name..." />
+          <Select
+            label="Type"
+            defaultValue="text"
+            options={[
+              { label: "Text", value: "text" },
+              { label: "Email", value: "email" },
+              { label: "Password", value: "password" },
+              { label: "Only Number", value: "onlyNumber" },
+            ]}
+            onSelect={(value) => setType(value as FormFieldType)}
+          />
           <button>Add</button>
         </form>
       </div>
