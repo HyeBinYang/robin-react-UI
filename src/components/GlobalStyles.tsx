@@ -126,6 +126,9 @@ export const GlobalStyles = () => (
         border-collapse: collapse;
         border-spacing: 0;
       }
+      input {
+        outline: none;
+      }
     `}
   />
 );
